@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Tip Split</title>
 
   <!-- PWA & Mobile Capabilities -->
@@ -36,14 +36,24 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    html {
+      background-color: var(--costa-dark);
+      min-height: 100%;
+    }
+
     body {
       min-height: 100vh;
+      min-height: 100dvh;
       background: radial-gradient(circle at 20% 15%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
+      background-attachment: fixed;
       color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 24px 16px 44px;
+      padding-top: max(24px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      padding-bottom: calc(44px + env(safe-area-inset-bottom));
       overflow-x: hidden;
       position: relative;
     }
@@ -118,7 +128,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* Install Prompt Banner (Liquid Glass) */
+    /* Install Prompt Banner */
     .install-banner {
       display: none;
       align-items: center;
@@ -180,7 +190,7 @@
       transform: scale(0.92);
     }
 
-    /* iOS Step-by-Step Instructions Drawer */
+    /* iOS Steps Guidance Box */
     .ios-install-steps {
       display: none;
       flex-direction: column;
@@ -492,7 +502,10 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding: 16px;
+      padding-top: max(16px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      padding-bottom: 0;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease;
@@ -510,15 +523,15 @@
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 28px;
-      padding: 22px 18px 26px;
+      border-radius: 28px 28px 0 0;
+      padding: 22px 18px calc(26px + env(safe-area-inset-bottom));
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       transform: translateY(100%);
       transition: transform 0.45s var(--spring-bounce);
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-height: 85vh;
+      max-height: 85dvh;
       overflow-y: auto;
     }
 
@@ -673,7 +686,7 @@
 </head>
 <body>
 
-  <!-- Floating Liquid Bubbles -->
+  <!-- Ambient Floating Bubbles -->
   <div class="bubble-layer">
     <div class="bubble bubble-1"></div>
     <div class="bubble bubble-2"></div>
@@ -699,7 +712,7 @@
       <button class="install-action-btn" id="installBtn" type="button">Install</button>
     </section>
 
-    <!-- iOS Step-by-Step Guidance Box (Safari) -->
+    <!-- iOS Step Guidance Box -->
     <div class="glass-card ios-install-steps" id="iosStepsBox">
       <div class="ios-step-item">
         <span class="step-num">1</span>
@@ -713,7 +726,6 @@
 
     <!-- Main Inputs -->
     <section class="glass-card">
-      <!-- Input 1: Value of Tips -->
       <div class="field-group">
         <label for="totalTips">Value of Tips</label>
         <div class="input-wrapper">
@@ -722,7 +734,6 @@
         </div>
       </div>
 
-      <!-- Input 2: Amount of Staff with Dropdown -->
       <div class="field-group" style="margin-bottom: 0;">
         <label>Amount of Staff</label>
         <div class="dropdown-trigger" id="staffTrigger" role="button" aria-expanded="false">
@@ -735,10 +746,8 @@
           </svg>
         </div>
 
-        <!-- Sliding Dropdown Menu -->
         <div class="dropdown-panel" id="staffPanel">
           <div class="dropdown-inner">
-            <!-- BMs -->
             <div class="counter-row">
               <div class="role-info-label">BMs</div>
               <div class="counter-controls">
@@ -748,7 +757,6 @@
               </div>
             </div>
 
-            <!-- Full Time -->
             <div class="counter-row">
               <div class="role-info-label">Full Time</div>
               <div class="counter-controls">
@@ -758,7 +766,6 @@
               </div>
             </div>
 
-            <!-- Part Time -->
             <div class="counter-row">
               <div class="role-info-label">Part Time</div>
               <div class="counter-controls">
@@ -774,7 +781,6 @@
 
     <!-- Results Cards -->
     <section class="results-grid">
-      <!-- BM Card -->
       <article class="glass-card result-card" id="cardBM">
         <div>
           <div class="res-title">BMs</div>
@@ -786,7 +792,6 @@
         </div>
       </article>
 
-      <!-- Full Time Card -->
       <article class="glass-card result-card" id="cardFT">
         <div>
           <div class="res-title">Full Time</div>
@@ -798,7 +803,6 @@
         </div>
       </article>
 
-      <!-- Part Time Card -->
       <article class="glass-card result-card" id="cardPT">
         <div>
           <div class="res-title">Part Time</div>
@@ -811,20 +815,18 @@
       </article>
     </section>
 
-    <!-- Pop-out Button -->
     <button class="equation-btn" id="openModalBtn" type="button">
       <span>View Equation & Breakdown</span>
     </button>
   </main>
 
-  <!-- Pop-out Modal Sheet -->
+  <!-- Modal Sheet -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-sheet">
       <div class="modal-top-bar">
         <button class="close-btn" id="closeModalBtn" type="button">✕</button>
       </div>
 
-      <!-- BOX 1: Calculation Breakdown -->
       <section class="modal-section-card">
         <h2>Calculation Breakdown</h2>
 
@@ -881,7 +883,6 @@
         </div>
       </section>
 
-      <!-- BOX 2: Full Equation -->
       <section class="modal-section-card">
         <h2>Full Equation</h2>
         
@@ -942,14 +943,12 @@
   </div>
 
   <script>
-    // Staff State
     const staffState = {
       bm: 4,
       ft: 5,
       pt: 4
     };
 
-    // DOM Elements
     const totalTipsInput = document.getElementById('totalTips');
     const staffTrigger = document.getElementById('staffTrigger');
     const staffPanel = document.getElementById('staffPanel');
@@ -975,7 +974,6 @@
     const ftSub = document.getElementById('ftSub');
     const ptSub = document.getElementById('ptSub');
 
-    // Modal Elements
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -991,22 +989,16 @@
     const modalFTSummary = document.getElementById('modalFTSummary');
     const modalPTSummary = document.getElementById('modalPTSummary');
 
-    // PWA Install Elements
     const installBanner = document.getElementById('installBanner');
     const installBtn = document.getElementById('installBtn');
     const iosStepsBox = document.getElementById('iosStepsBox');
 
     let deferredPrompt = null;
-
-    // Check if running as standalone app
     const isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-
-    // Detect iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
     if (!isRunningStandalone) {
       if (isIOS) {
-        // Show iOS Add to Home Screen trigger
         installBanner.style.display = 'flex';
         installBtn.textContent = 'How to Install';
         installBtn.addEventListener('click', () => {
@@ -1014,7 +1006,6 @@
         });
       }
 
-      // Android / Chromium beforeinstallprompt listener
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
@@ -1038,14 +1029,12 @@
       });
     }
 
-    // Accordion Dropdown
     staffTrigger.addEventListener('click', () => {
       const isOpen = staffPanel.classList.toggle('open');
       staffTrigger.classList.toggle('open');
       staffTrigger.setAttribute('aria-expanded', isOpen);
     });
 
-    // Step Adjuster
     function adjustCount(role, delta) {
       if (staffState[role] + delta >= 0) {
         staffState[role] += delta;
@@ -1056,14 +1045,12 @@
       }
     }
 
-    // Modal Open/Close
     openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Calculation Function
     function calculate() {
       const totalTips = parseFloat(totalTipsInput.value) || 0;
       const totalStaff = staffState.bm + staffState.ft + staffState.pt;
@@ -1100,21 +1087,16 @@
         return;
       }
 
-      // 50/50 Partition
       const halfX = totalTips / 2;
       const halfY = totalTips / 2;
 
-      // Equal Split
       const equalShare = halfX / totalStaff;
-
-      // Weighted Split (BM = 3, FT = 2, PT = 1)
       const pointValue = totalPoints > 0 ? halfY / totalPoints : 0;
 
       const bmFinal = equalShare + (3 * pointValue);
       const ftFinal = equalShare + (2 * pointValue);
       const ptFinal = equalShare + (1 * pointValue);
 
-      // Render cards
       bmPayout.textContent = `£${bmFinal.toFixed(2)}`;
       ftPayout.textContent = `£${ftFinal.toFixed(2)}`;
       ptPayout.textContent = `£${ptFinal.toFixed(2)}`;
@@ -1123,7 +1105,6 @@
       ftGroupTotal.textContent = `Group (${staffState.ft}): £${(ftFinal * staffState.ft).toFixed(2)}`;
       ptGroupTotal.textContent = `Group (${staffState.pt}): £${(ptFinal * staffState.pt).toFixed(2)}`;
 
-      // Update Breakdown
       modalHalfX.textContent = `£${halfX.toFixed(2)}`;
       modalHalfY.textContent = `£${halfY.toFixed(2)}`;
       modalXFormula.textContent = `£${halfX.toFixed(2)} ÷ ${totalStaff} staff`;
@@ -1134,7 +1115,6 @@
       modalFTSummary.textContent = `£${equalShare.toFixed(2)} + (2 × £${pointValue.toFixed(2)}) = £${ftFinal.toFixed(2)}`;
       modalPTSummary.textContent = `£${equalShare.toFixed(2)} + (1 × £${pointValue.toFixed(2)}) = £${ptFinal.toFixed(2)}`;
 
-      // Heavy bounce
       [cardBM, cardFT, cardPT].forEach(card => {
         if (card.style.display !== 'none') {
           card.classList.remove('bounce-pop');
@@ -1145,10 +1125,8 @@
     }
 
     totalTipsInput.addEventListener('input', calculate);
-
     window.addEventListener('DOMContentLoaded', calculate);
 
-    // Register Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
