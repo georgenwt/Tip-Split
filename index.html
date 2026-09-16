@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Tip Split</title>
 
-  <!-- PWA & Mobile Capabilities -->
-  <link rel="manifest" href="manifest.json" />
+  <!-- Color Scheme & Theme Handlers for Seamless System Bars -->
+  <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#730723" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tip Split" />
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icon.png" />
   <link rel="icon" type="image/png" href="icon.png" />
 
@@ -22,7 +25,7 @@
       --costa-light: #9e1338;
       --glass-card: rgba(255, 255, 255, 0.16);
       --glass-border: rgba(255, 255, 255, 0.26);
-      --glass-modal: rgba(45, 4, 14, 0.88);
+      --glass-modal: rgba(45, 4, 14, 0.92);
       --text-main: #ffffff;
       --text-muted: rgba(255, 255, 255, 0.76);
       --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -36,24 +39,31 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    /* Force dark color scheme to prevent mobile browsers from rendering a white navigation scrim */
     html {
+      color-scheme: dark;
       background-color: var(--costa-dark);
       min-height: 100%;
+      height: 100%;
     }
 
     body {
+      color-scheme: dark;
+      margin: 0;
       min-height: 100vh;
       min-height: 100dvh;
-      background: radial-gradient(circle at 20% 15%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
-      background-attachment: fixed;
+      background-color: var(--costa-dark);
+      background-image: radial-gradient(circle at 20% 15%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
+      background-repeat: no-repeat;
+      background-size: cover;
       color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding-top: max(24px, env(safe-area-inset-top));
+      padding-top: max(20px, env(safe-area-inset-top));
       padding-left: max(16px, env(safe-area-inset-left));
       padding-right: max(16px, env(safe-area-inset-right));
-      padding-bottom: calc(44px + env(safe-area-inset-bottom));
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
       overflow-x: hidden;
       position: relative;
     }
@@ -95,7 +105,7 @@
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       animation: heavyEntrance 0.75s var(--spring-bounce);
     }
 
@@ -110,8 +120,8 @@
       background: var(--glass-card);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
-      border-radius: 26px;
-      padding: 18px;
+      border-radius: 24px;
+      padding: 16px 18px;
       border: 1px solid var(--glass-border);
       box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.38);
     }
@@ -119,7 +129,7 @@
     /* Header */
     .header-card {
       text-align: center;
-      padding: 16px;
+      padding: 14px;
     }
 
     h1 {
@@ -134,11 +144,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 12px 16px;
       border-radius: 20px;
       border: 1.5px solid rgba(255, 255, 255, 0.4);
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12));
-      animation: heavyEntrance 0.6s var(--spring-bounce);
     }
 
     .install-banner-content {
@@ -149,8 +158,8 @@
     }
 
     .install-app-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       flex-shrink: 0;
@@ -164,23 +173,23 @@
     }
 
     .install-title {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 800;
     }
 
     .install-subtitle {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: var(--text-muted);
     }
 
     .install-action-btn {
       background: rgba(255, 255, 255, 0.28);
       border: 1px solid rgba(255, 255, 255, 0.45);
-      border-radius: 14px;
+      border-radius: 12px;
       color: #fff;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      padding: 8px 14px;
+      padding: 7px 12px;
       cursor: pointer;
       flex-shrink: 0;
       transition: transform 0.25s var(--spring-bounce);
@@ -190,7 +199,7 @@
       transform: scale(0.92);
     }
 
-    /* iOS Steps Guidance Box */
+    /* iOS Steps Box */
     .ios-install-steps {
       display: none;
       flex-direction: column;
@@ -228,12 +237,12 @@
 
     /* Form Fields */
     .field-group {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       margin-bottom: 6px;
       color: var(--text-muted);
@@ -250,7 +259,7 @@
     .currency-symbol {
       position: absolute;
       left: 16px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.85);
       pointer-events: none;
@@ -269,7 +278,7 @@
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
       border-radius: 18px;
-      padding: 14px 14px 14px 34px;
+      padding: 13px 14px 13px 34px;
       color: #fff;
       font-size: 1.05rem;
       font-weight: 700;
@@ -295,7 +304,7 @@
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
       border-radius: 18px;
-      padding: 14px 16px;
+      padding: 13px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -432,16 +441,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 18px;
+      padding: 14px 18px;
     }
 
     .res-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
     }
 
     .res-sub {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 400;
       color: var(--text-muted);
       margin-top: 2px;
@@ -452,14 +461,14 @@
     }
 
     .payout-number {
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 800;
       color: #fff;
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
     }
 
     .res-group-total {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 400;
       color: var(--text-muted);
       margin-top: 2px;
@@ -473,7 +482,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 20px;
-      padding: 14px;
+      padding: 13px;
       color: #ffffff;
       font-size: 0.95rem;
       font-weight: 700;
@@ -495,9 +504,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 99;
       display: flex;
       align-items: flex-end;
@@ -524,7 +533,7 @@
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 28px 28px 0 0;
-      padding: 22px 18px calc(26px + env(safe-area-inset-bottom));
+      padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       transform: translateY(100%);
       transition: transform 0.45s var(--spring-bounce);
@@ -562,7 +571,7 @@
     .modal-section-card {
       background: rgba(0, 0, 0, 0.28);
       border: 1.5px solid rgba(255, 255, 255, 0.18);
-      border-radius: 22px;
+      border-radius: 20px;
       padding: 16px;
       display: flex;
       flex-direction: column;
@@ -570,7 +579,7 @@
     }
 
     .modal-section-card h2 {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
@@ -686,7 +695,7 @@
 </head>
 <body>
 
-  <!-- Ambient Floating Bubbles -->
+  <!-- Ambient Bubbles -->
   <div class="bubble-layer">
     <div class="bubble bubble-1"></div>
     <div class="bubble bubble-2"></div>
@@ -695,12 +704,11 @@
   </div>
 
   <main class="app-container">
-    <!-- Header -->
     <header class="glass-card header-card">
       <h1>Tip Split</h1>
     </header>
 
-    <!-- Install PWA Prompt Banner -->
+    <!-- Install Banner -->
     <section class="glass-card install-banner" id="installBanner">
       <div class="install-banner-content">
         <img src="icon.png" alt="App Icon" class="install-app-icon" onerror="this.style.display='none'" />
@@ -712,7 +720,7 @@
       <button class="install-action-btn" id="installBtn" type="button">Install</button>
     </section>
 
-    <!-- iOS Step Guidance Box -->
+    <!-- iOS Step Box -->
     <div class="glass-card ios-install-steps" id="iosStepsBox">
       <div class="ios-step-item">
         <span class="step-num">1</span>
