@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tip Splitter</title>
+  <style>
+    :root {
+      --font-family: 'Brandon Grotesque', 'brandon-grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --costa-burgundy: #730723;
+      --costa-dark: #3e0311;
+      --costa-light: #9e1338;
+      --glass-card: rgba(255, 255, 255, 0.16);
+      --glass-border: rgba(255, 255, 255, 0.26);
+      --glass-modal: rgba(45, 4, 14, 0.88);
+      --text-main: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.76);
+      --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 15%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 16px 44px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Liquid Bubbles */
+    .bubble-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.1) 65%, transparent 80%);
+      box-shadow: inset -5px -5px 12px rgba(0, 0, 0, 0.25), inset 5px 5px 15px rgba(255, 255, 255, 0.4);
+      opacity: 0.55;
+      animation: floatAround infinite ease-in-out alternate;
+    }
+
+    .bubble-1 { width: 160px; height: 160px; top: -40px; left: -30px; animation-duration: 7s; }
+    .bubble-2 { width: 100px; height: 100px; top: 42%; right: -25px; animation-duration: 9.5s; }
+    .bubble-3 { width: 130px; height: 130px; bottom: 6%; left: -35px; animation-duration: 8s; }
+    .bubble-4 { width: 80px; height: 80px; bottom: 28%; right: 12%; animation-duration: 6.5s; }
+
+    @keyframes floatAround {
+      0% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-34px) scale(1.08) rotate(12deg); }
+      100% { transform: translateY(20px) scale(0.94) rotate(-10deg); }
+    }
+
+    /* Container */
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: heavyEntrance 0.75s var(--spring-bounce);
+    }
+
+    @keyframes heavyEntrance {
+      0% { opacity: 0; transform: translateY(50px) scale(0.92); }
+      60% { transform: translateY(-10px) scale(1.02); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Liquid Glass Base */
+    .glass-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-radius: 26px;
+      padding: 18px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.38);
+    }
+
+    /* Header */
+    .header-card {
+      text-align: center;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* Form Fields */
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 16px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.85);
+      pointer-events: none;
+    }
+
+    /* Disabling spinner arrows */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      padding: 14px 14px 14px 34px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.3s var(--spring-bounce);
+    }
+
+    input[type="number"]::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 400;
+      font-size: 0.95rem;
+    }
+
+    input[type="number"]:focus {
+      border-color: rgba(255, 255, 255, 0.75);
+      background: rgba(0, 0, 0, 0.34);
+      transform: scale(1.02);
+    }
+
+    /* Staff Dropdown Trigger */
+    .dropdown-trigger {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s var(--spring-bounce);
+    }
+
+    .dropdown-trigger:active {
+      transform: scale(0.96);
+    }
+
+    .trigger-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .trigger-sub {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .chevron {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.4s var(--spring-bounce);
+    }
+
+    .dropdown-trigger.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Dropdown Panel */
+    .dropdown-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.45s var(--spring-bounce), margin-top 0.3s ease;
+      margin-top: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .dropdown-panel.open {
+      grid-template-rows: 1fr;
+      margin-top: 10px;
+    }
+
+    .dropdown-inner {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: transparent;
+      border-radius: 18px;
+      padding: 0;
+      border: none;
+      transition: padding 0.35s ease, background 0.35s ease;
+    }
+
+    .dropdown-panel.open .dropdown-inner {
+      background: rgba(0, 0, 0, 0.18);
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    /* Counter Controls */
+    .counter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .role-info-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .counter-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s var(--spring-bounce), background 0.2s;
+    }
+
+    .counter-btn:active {
+      transform: scale(0.78);
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .counter-num {
+      width: 26px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* Results */
+    .results-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .result-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 18px;
+    }
+
+    .res-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .res-sub {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .res-payout-wrap {
+      text-align: right;
+    }
+
+    .payout-number {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .res-group-total {
+      font-size: 0.74rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Pop-out Trigger Button */
+    .equation-btn {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 14px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: transform 0.25s var(--spring-bounce), background 0.25s;
+    }
+
+    .equation-btn:active {
+      transform: scale(0.94);
+      background: rgba(255, 255, 255, 0.26);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 99;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 440px;
+      background: var(--glass-modal);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 28px;
+      padding: 22px 18px 26px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      transform: translateY(100%);
+      transition: transform 0.45s var(--spring-bounce);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open .modal-sheet {
+      transform: translateY(0);
+    }
+
+    .modal-top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: -6px;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Modal Main Separate Containers */
+    .modal-section-card {
+      background: rgba(0, 0, 0, 0.28);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-section-card h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding-bottom: 8px;
+    }
+
+    /* Step Rows inside Calculation Breakdown */
+    .calc-step {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .calc-step-title {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .calc-step-desc {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .eq-row {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.84rem;
+    }
+
+    .eq-row span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .eq-row strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Full Equation Textbook Styling */
+    .math-block {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid rgba(255, 255, 255, 0.55);
+      padding: 9px 12px;
+      border-radius: 4px 12px 12px 4px;
+      font-family: 'Cambria Math', 'Times New Roman', Times, serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #ffffff;
+      overflow-x: auto;
+    }
+
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      vertical-align: middle;
+      text-align: center;
+      padding: 0 4px;
+      font-size: 0.88em;
+    }
+
+    .math-num {
+      border-bottom: 1px solid #ffffff;
+      padding-bottom: 2px;
+    }
+
+    .math-den {
+      padding-top: 2px;
+    }
+
+    .math-glossary {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.16);
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+
+    .math-glossary p {
+      margin-bottom: 6px;
+    }
+
+    .math-glossary p:last-child {
+      margin-bottom: 0;
+    }
+
+    .math-glossary strong {
+      color: #fff;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-size: 0.88rem;
+    }
+
+    .bounce-pop {
+      animation: heavyPop 0.5s var(--spring-bounce);
+    }
+
+    @keyframes heavyPop {
+      0% { transform: scale(0.92); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Liquid Bubbles -->
+  <div class="bubble-layer">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+  </div>
+
+  <main class="app-container">
+    <!-- Header -->
+    <header class="glass-card header-card">
+      <h1>Tip Splitter</h1>
+    </header>
+
+    <!-- Main Inputs -->
+    <section class="glass-card">
+      <!-- Input 1: Value of Tips -->
+      <div class="field-group">
+        <label for="totalTips">Value of Tips</label>
+        <div class="input-wrapper">
+          <span class="currency-symbol">£</span>
+          <input type="number" id="totalTips" step="0.01" placeholder="What's the total?" inputmode="decimal" />
+        </div>
+      </div>
+
+      <!-- Input 2: Amount of Staff with Dropdown -->
+      <div class="field-group" style="margin-bottom: 0;">
+        <label>Amount of Staff</label>
+        <div class="dropdown-trigger" id="staffTrigger" role="button" aria-expanded="false">
+          <div class="trigger-val">
+            <span id="staffTotalDisplay">13</span>
+            <span class="trigger-sub">Staff (tap to configure)</span>
+          </div>
+          <svg class="chevron" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+
+        <!-- Sliding Dropdown Menu -->
+        <div class="dropdown-panel" id="staffPanel">
+          <div class="dropdown-inner">
+            <!-- BMs -->
+            <div class="counter-row">
+              <div class="role-info-label">BMs</div>
+              <div class="counter-controls">
+                <button class="counter-btn" onclick="adjustCount('bm', -1)">−</button>
+                <span class="counter-num" id="bmCount">4</span>
+                <button class="counter-btn" onclick="adjustCount('bm', 1)">+</button>
+              </div>
+            </div>
+
+            <!-- Full Time -->
+            <div class="counter-row">
+              <div class="role-info-label">Full Time</div>
+              <div class="counter-controls">
+                <button class="counter-btn" onclick="adjustCount('ft', -1)">−</button>
+                <span class="counter-num" id="ftCount">5</span>
+                <button class="counter-btn" onclick="adjustCount('ft', 1)">+</button>
+              </div>
+            </div>
+
+            <!-- Part Time -->
+            <div class="counter-row">
+              <div class="role-info-label">Part Time</div>
+              <div class="counter-controls">
+                <button class="counter-btn" onclick="adjustCount('pt', -1)">−</button>
+                <span class="counter-num" id="ptCount">4</span>
+                <button class="counter-btn" onclick="adjustCount('pt', 1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Cards -->
+    <section class="results-grid">
+      <!-- BM Card -->
+      <article class="glass-card result-card" id="cardBM">
+        <div>
+          <div class="res-title">BMs</div>
+          <div class="res-sub" id="bmSub">4 staff</div>
+        </div>
+        <div class="res-payout-wrap">
+          <div class="payout-number" id="bmPayout">£0.00</div>
+          <div class="res-group-total" id="bmGroupTotal">Group: £0.00</div>
+        </div>
+      </article>
+
+      <!-- Full Time Card -->
+      <article class="glass-card result-card" id="cardFT">
+        <div>
+          <div class="res-title">Full Time</div>
+          <div class="res-sub" id="ftSub">5 staff</div>
+        </div>
+        <div class="res-payout-wrap">
+          <div class="payout-number" id="ftPayout">£0.00</div>
+          <div class="res-group-total" id="ftGroupTotal">Group: £0.00</div>
+        </div>
+      </article>
+
+      <!-- Part Time Card -->
+      <article class="glass-card result-card" id="cardPT">
+        <div>
+          <div class="res-title">Part Time</div>
+          <div class="res-sub" id="ptSub">4 staff</div>
+        </div>
+        <div class="res-payout-wrap">
+          <div class="payout-number" id="ptPayout">£0.00</div>
+          <div class="res-group-total" id="ptGroupTotal">Group: £0.00</div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pop-out Button -->
+    <button class="equation-btn" id="openModalBtn" type="button">
+      <span>View Equation & Breakdown</span>
+    </button>
+  </main>
+
+  <!-- Pop-out Modal Sheet -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-sheet">
+      <div class="modal-top-bar">
+        <button class="close-btn" id="closeModalBtn" type="button">✕</button>
+      </div>
+
+      <!-- BOX 1: Calculation Breakdown (Live Values in Play) -->
+      <section class="modal-section-card">
+        <h2>Calculation Breakdown</h2>
+
+        <!-- Step 1 -->
+        <div class="calc-step">
+          <div class="calc-step-title">1. Equal 50/50 Pool Partition</div>
+          <div class="calc-step-desc">Total tips (T) divided into two equal pools:</div>
+          <div class="eq-row">
+            <span>Half X (Equal Pool):</span>
+            <strong id="modalHalfX">£0.00</strong>
+          </div>
+          <div class="eq-row">
+            <span>Half Y (Role Pool):</span>
+            <strong id="modalHalfY">£0.00</strong>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="calc-step">
+          <div class="calc-step-title">2. Half X (Equal Distribution)</div>
+          <div class="calc-step-desc">Distributed uniformly across active staff:</div>
+          <div class="eq-row">
+            <span id="modalXFormula">£0.00 ÷ 13 staff</span>
+            <strong id="modalEqualShare">£0.00 each</strong>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="calc-step">
+          <div class="calc-step-title">3. Half Y (Role & Contract Weighting)</div>
+          <div class="calc-step-desc">Weights: BM = 3 pts · FT = 2 pts · PT = 1 pt</div>
+          <div class="eq-row">
+            <span id="modalPointsFormula">(4×3) + (5×2) + (4×1)</span>
+            <strong id="modalTotalPoints">26 pts total</strong>
+          </div>
+          <div class="eq-row">
+            <span>Point Value (Half Y ÷ Total Points):</span>
+            <strong id="modalPointValue">£0.00 / pt</strong>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="calc-step">
+          <div class="calc-step-title">4. Individual Payout Calculations</div>
+          <div class="calc-step-desc">Formula: Equal Share (X) + (Role Points × Point Value)</div>
+          <div class="eq-row">
+            <span>BM (3 pts):</span>
+            <strong id="modalBMSummary">£0.00</strong>
+          </div>
+          <div class="eq-row">
+            <span>Full Time (2 pts):</span>
+            <strong id="modalFTSummary">£0.00</strong>
+          </div>
+          <div class="eq-row">
+            <span>Part Time (1 pt):</span>
+            <strong id="modalPTSummary">£0.00</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOX 2: Full Equation (Formal Textbook Definition) -->
+      <section class="modal-section-card">
+        <h2>Full Equation</h2>
+        
+        <p style="font-size: 0.8rem; color: var(--text-muted);">
+          Let the workplace population be a finite set <span style="font-family: serif; color:#fff;">S = {1, 2, ..., N}</span> partitioned into three mutually disjoint subsets: <span style="font-family: serif; color:#fff;">S<sub>BM</sub></span>, <span style="font-family: serif; color:#fff;">S<sub>FT</sub></span>, and <span style="font-family: serif; color:#fff;">S<sub>PT</sub></span>.
+        </p>
+
+        <!-- Total Weighting Scalar -->
+        <div class="math-block">
+          W = &sum;<sub>i &in; S</sub> w<sub>i</sub> = 3|S<sub>BM</sub>| + 2|S<sub>FT</sub>| + 1|S<sub>PT</sub>|
+        </div>
+
+        <!-- Master Closed-Form Equation -->
+        <div class="math-block">
+          P<sub>i</sub> = 
+          <span class="math-frac">
+            <span class="math-num">T</span>
+            <span class="math-den">2N</span>
+          </span>
+          +
+          w<sub>i</sub> &middot;
+          <span class="math-frac">
+            <span class="math-num">T</span>
+            <span class="math-den">2 &middot; W</span>
+          </span>
+        </div>
+
+        <!-- Factored Form -->
+        <div class="math-block">
+          P<sub>i</sub> = 
+          <span class="math-frac">
+            <span class="math-num">T</span>
+            <span class="math-den">2</span>
+          </span>
+          &middot;
+          <span style="font-size: 1.2em;">[</span>
+          <span class="math-frac">
+            <span class="math-num">1</span>
+            <span class="math-den">N</span>
+          </span>
+          +
+          <span class="math-frac">
+            <span class="math-num">w<sub>i</sub></span>
+            <span class="math-den">3n<sub>BM</sub> + 2n<sub>FT</sub> + n<sub>PT</sub></span>
+          </span>
+          <span style="font-size: 1.2em;">]</span>
+        </div>
+
+        <!-- Glossary -->
+        <div class="math-glossary">
+          <p><strong>T</strong> &equiv; Total gross tip capital (£)</p>
+          <p><strong>N</strong> &equiv; Total eligible staff population (|S| = n<sub>BM</sub> + n<sub>FT</sub> + n<sub>PT</sub>)</p>
+          <p><strong>W</strong> &equiv; Total weighted points across all staff members</p>
+          <p><strong>w<sub>i</sub></strong> &equiv; Discrete role weighting coefficient for staff member <em>i</em>:<br />
+             &bull; w<sub>i</sub> = 3 &nbsp;for <em>i</em> &in; S<sub>BM</sub> (Assistant Managers)<br />
+             &bull; w<sub>i</sub> = 2 &nbsp;for <em>i</em> &in; S<sub>FT</sub> (Full Time)<br />
+             &bull; w<sub>i</sub> = 1 &nbsp;for <em>i</em> &in; S<sub>PT</sub> (Part Time)</p>
+          <p><strong>P<sub>i</sub></strong> &equiv; Net individualized tip dividend for worker <em>i</em></p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const staffState = {
+      bm: 4,
+      ft: 5,
+      pt: 4
+    };
+
+    // Main Elements
+    const totalTipsInput = document.getElementById('totalTips');
+    const staffTrigger = document.getElementById('staffTrigger');
+    const staffPanel = document.getElementById('staffPanel');
+    const staffTotalDisplay = document.getElementById('staffTotalDisplay');
+
+    const bmCountEl = document.getElementById('bmCount');
+    const ftCountEl = document.getElementById('ftCount');
+    const ptCountEl = document.getElementById('ptCount');
+
+    const cardBM = document.getElementById('cardBM');
+    const cardFT = document.getElementById('cardFT');
+    const cardPT = document.getElementById('cardPT');
+
+    const bmPayout = document.getElementById('bmPayout');
+    const ftPayout = document.getElementById('ftPayout');
+    const ptPayout = document.getElementById('ptPayout');
+
+    const bmGroupTotal = document.getElementById('bmGroupTotal');
+    const ftGroupTotal = document.getElementById('ftGroupTotal');
+    const ptGroupTotal = document.getElementById('ptGroupTotal');
+
+    const bmSub = document.getElementById('bmSub');
+    const ftSub = document.getElementById('ftSub');
+    const ptSub = document.getElementById('ptSub');
+
+    // Modal Elements
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    const modalHalfX = document.getElementById('modalHalfX');
+    const modalHalfY = document.getElementById('modalHalfY');
+    const modalXFormula = document.getElementById('modalXFormula');
+    const modalEqualShare = document.getElementById('modalEqualShare');
+    const modalPointsFormula = document.getElementById('modalPointsFormula');
+    const modalTotalPoints = document.getElementById('modalTotalPoints');
+    const modalPointValue = document.getElementById('modalPointValue');
+    const modalBMSummary = document.getElementById('modalBMSummary');
+    const modalFTSummary = document.getElementById('modalFTSummary');
+    const modalPTSummary = document.getElementById('modalPTSummary');
+
+    // Accordion Dropdown
+    staffTrigger.addEventListener('click', () => {
+      const isOpen = staffPanel.classList.toggle('open');
+      staffTrigger.classList.toggle('open');
+      staffTrigger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Step Adjuster
+    function adjustCount(role, delta) {
+      if (staffState[role] + delta >= 0) {
+        staffState[role] += delta;
+        bmCountEl.textContent = staffState.bm;
+        ftCountEl.textContent = staffState.ft;
+        ptCountEl.textContent = staffState.pt;
+        calculate();
+      }
+    }
+
+    // Modal Open/Close
+    openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
+    closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+    });
+
+    // Calculation Function
+    function calculate() {
+      const totalTips = parseFloat(totalTipsInput.value) || 0;
+      const totalStaff = staffState.bm + staffState.ft + staffState.pt;
+
+      staffTotalDisplay.textContent = totalStaff;
+      bmSub.textContent = `${staffState.bm} staff`;
+      ftSub.textContent = `${staffState.ft} staff`;
+      ptSub.textContent = `${staffState.pt} staff`;
+
+      cardBM.style.display = staffState.bm > 0 ? 'flex' : 'none';
+      cardFT.style.display = staffState.ft > 0 ? 'flex' : 'none';
+      cardPT.style.display = staffState.pt > 0 ? 'flex' : 'none';
+
+      // Dynamic calculation of weighted points
+      const totalPoints = (staffState.bm * 3) + (staffState.ft * 2) + (staffState.pt * 1);
+      modalPointsFormula.textContent = `(${staffState.bm}×3) + (${staffState.ft}×2) + (${staffState.pt}×1)`;
+      modalTotalPoints.textContent = `${totalPoints} pts total`;
+
+      if (totalTips <= 0 || totalStaff <= 0) {
+        bmPayout.textContent = '£0.00';
+        ftPayout.textContent = '£0.00';
+        ptPayout.textContent = '£0.00';
+        bmGroupTotal.textContent = 'Group: £0.00';
+        ftGroupTotal.textContent = 'Group: £0.00';
+        ptGroupTotal.textContent = 'Group: £0.00';
+
+        modalHalfX.textContent = '£0.00';
+        modalHalfY.textContent = '£0.00';
+        modalXFormula.textContent = `£0.00 ÷ ${totalStaff} staff`;
+        modalEqualShare.textContent = '£0.00 each';
+        modalPointValue.textContent = '£0.00 / pt';
+        modalBMSummary.textContent = '£0.00';
+        modalFTSummary.textContent = '£0.00';
+        modalPTSummary.textContent = '£0.00';
+        return;
+      }
+
+      // 50/50 Partition
+      const halfX = totalTips / 2;
+      const halfY = totalTips / 2;
+
+      // Equal Split
+      const equalShare = halfX / totalStaff;
+
+      // Weighted Split (BM = 3, FT = 2, PT = 1)
+      const pointValue = totalPoints > 0 ? halfY / totalPoints : 0;
+
+      const bmFinal = equalShare + (3 * pointValue);
+      const ftFinal = equalShare + (2 * pointValue);
+      const ptFinal = equalShare + (1 * pointValue);
+
+      // Render cards
+      bmPayout.textContent = `£${bmFinal.toFixed(2)}`;
+      ftPayout.textContent = `£${ftFinal.toFixed(2)}`;
+      ptPayout.textContent = `£${ptFinal.toFixed(2)}`;
+
+      bmGroupTotal.textContent = `Group (${staffState.bm}): £${(bmFinal * staffState.bm).toFixed(2)}`;
+      ftGroupTotal.textContent = `Group (${staffState.ft}): £${(ftFinal * staffState.ft).toFixed(2)}`;
+      ptGroupTotal.textContent = `Group (${staffState.pt}): £${(ptFinal * staffState.pt).toFixed(2)}`;
+
+      // Update Breakdown with live values in play
+      modalHalfX.textContent = `£${halfX.toFixed(2)}`;
+      modalHalfY.textContent = `£${halfY.toFixed(2)}`;
+      modalXFormula.textContent = `£${halfX.toFixed(2)} ÷ ${totalStaff} staff`;
+      modalEqualShare.textContent = `£${equalShare.toFixed(2)} each`;
+      modalPointValue.textContent = `£${pointValue.toFixed(2)} / pt`;
+
+      modalBMSummary.textContent = `£${equalShare.toFixed(2)} + (3 × £${pointValue.toFixed(2)}) = £${bmFinal.toFixed(2)}`;
+      modalFTSummary.textContent = `£${equalShare.toFixed(2)} + (2 × £${pointValue.toFixed(2)}) = £${ftFinal.toFixed(2)}`;
+      modalPTSummary.textContent = `£${equalShare.toFixed(2)} + (1 × £${pointValue.toFixed(2)}) = £${ptFinal.toFixed(2)}`;
+
+      // Heavy bounce
+      [cardBM, cardFT, cardPT].forEach(card => {
+        if (card.style.display !== 'none') {
+          card.classList.remove('bounce-pop');
+          void card.offsetWidth;
+          card.classList.add('bounce-pop');
+        }
+      });
+    }
+
+    totalTipsInput.addEventListener('input', calculate);
+
+    window.addEventListener('DOMContentLoaded', calculate);
+  </script>
+</body>
+</html>
