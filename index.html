@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Tip Splitter</title>
+  <title>Tip Split</title>
+
+  <!-- PWA & Mobile Capabilities -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#730723" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Tip Split" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
+
   <style>
     :root {
       --font-family: 'Brandon Grotesque', 'brandon-grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -108,6 +118,104 @@
       letter-spacing: 0.5px;
     }
 
+    /* Install Prompt Banner (Liquid Glass) */
+    .install-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12));
+      animation: heavyEntrance 0.6s var(--spring-bounce);
+    }
+
+    .install-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .install-app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.25);
+      object-fit: cover;
+    }
+
+    .install-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .install-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .install-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .install-action-btn {
+      background: rgba(255, 255, 255, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 8px 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.25s var(--spring-bounce);
+    }
+
+    .install-action-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* iOS Step-by-Step Instructions Drawer */
+    .ios-install-steps {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.24);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .ios-install-steps.open {
+      display: flex;
+    }
+
+    .ios-step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      font-weight: 800;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
     /* Form Fields */
     .field-group {
       margin-bottom: 14px;
@@ -138,7 +246,6 @@
       pointer-events: none;
     }
 
-    /* Disabling spinner arrows */
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -439,7 +546,6 @@
       cursor: pointer;
     }
 
-    /* Modal Main Separate Containers */
     .modal-section-card {
       background: rgba(0, 0, 0, 0.28);
       border: 1.5px solid rgba(255, 255, 255, 0.18);
@@ -460,7 +566,6 @@
       padding-bottom: 8px;
     }
 
-    /* Step Rows inside Calculation Breakdown */
     .calc-step {
       background: rgba(255, 255, 255, 0.06);
       border-radius: 14px;
@@ -502,7 +607,6 @@
       font-weight: 700;
     }
 
-    /* Full Equation Textbook Styling */
     .math-block {
       background: rgba(255, 255, 255, 0.05);
       border-left: 3px solid rgba(255, 255, 255, 0.55);
@@ -580,8 +684,32 @@
   <main class="app-container">
     <!-- Header -->
     <header class="glass-card header-card">
-      <h1>Tip Splitter</h1>
+      <h1>Tip Split</h1>
     </header>
+
+    <!-- Install PWA Prompt Banner -->
+    <section class="glass-card install-banner" id="installBanner">
+      <div class="install-banner-content">
+        <img src="icon.png" alt="App Icon" class="install-app-icon" onerror="this.style.display='none'" />
+        <div class="install-text-wrap">
+          <span class="install-title">Get Tip Split</span>
+          <span class="install-subtitle">Install as a native web app</span>
+        </div>
+      </div>
+      <button class="install-action-btn" id="installBtn" type="button">Install</button>
+    </section>
+
+    <!-- iOS Step-by-Step Guidance Box (Safari) -->
+    <div class="glass-card ios-install-steps" id="iosStepsBox">
+      <div class="ios-step-item">
+        <span class="step-num">1</span>
+        <span>Tap the <strong>Share</strong> button in Safari's toolbar.</span>
+      </div>
+      <div class="ios-step-item">
+        <span class="step-num">2</span>
+        <span>Scroll down and tap <strong>Add to Home Screen</strong>.</span>
+      </div>
+    </div>
 
     <!-- Main Inputs -->
     <section class="glass-card">
@@ -696,11 +824,10 @@
         <button class="close-btn" id="closeModalBtn" type="button">✕</button>
       </div>
 
-      <!-- BOX 1: Calculation Breakdown (Live Values in Play) -->
+      <!-- BOX 1: Calculation Breakdown -->
       <section class="modal-section-card">
         <h2>Calculation Breakdown</h2>
 
-        <!-- Step 1 -->
         <div class="calc-step">
           <div class="calc-step-title">1. Equal 50/50 Pool Partition</div>
           <div class="calc-step-desc">Total tips (T) divided into two equal pools:</div>
@@ -714,7 +841,6 @@
           </div>
         </div>
 
-        <!-- Step 2 -->
         <div class="calc-step">
           <div class="calc-step-title">2. Half X (Equal Distribution)</div>
           <div class="calc-step-desc">Distributed uniformly across active staff:</div>
@@ -724,7 +850,6 @@
           </div>
         </div>
 
-        <!-- Step 3 -->
         <div class="calc-step">
           <div class="calc-step-title">3. Half Y (Role & Contract Weighting)</div>
           <div class="calc-step-desc">Weights: BM = 3 pts · FT = 2 pts · PT = 1 pt</div>
@@ -738,7 +863,6 @@
           </div>
         </div>
 
-        <!-- Step 4 -->
         <div class="calc-step">
           <div class="calc-step-title">4. Individual Payout Calculations</div>
           <div class="calc-step-desc">Formula: Equal Share (X) + (Role Points × Point Value)</div>
@@ -757,7 +881,7 @@
         </div>
       </section>
 
-      <!-- BOX 2: Full Equation (Formal Textbook Definition) -->
+      <!-- BOX 2: Full Equation -->
       <section class="modal-section-card">
         <h2>Full Equation</h2>
         
@@ -765,12 +889,10 @@
           Let the workplace population be a finite set <span style="font-family: serif; color:#fff;">S = {1, 2, ..., N}</span> partitioned into three mutually disjoint subsets: <span style="font-family: serif; color:#fff;">S<sub>BM</sub></span>, <span style="font-family: serif; color:#fff;">S<sub>FT</sub></span>, and <span style="font-family: serif; color:#fff;">S<sub>PT</sub></span>.
         </p>
 
-        <!-- Total Weighting Scalar -->
         <div class="math-block">
           W = &sum;<sub>i &in; S</sub> w<sub>i</sub> = 3|S<sub>BM</sub>| + 2|S<sub>FT</sub>| + 1|S<sub>PT</sub>|
         </div>
 
-        <!-- Master Closed-Form Equation -->
         <div class="math-block">
           P<sub>i</sub> = 
           <span class="math-frac">
@@ -785,7 +907,6 @@
           </span>
         </div>
 
-        <!-- Factored Form -->
         <div class="math-block">
           P<sub>i</sub> = 
           <span class="math-frac">
@@ -806,7 +927,6 @@
           <span style="font-size: 1.2em;">]</span>
         </div>
 
-        <!-- Glossary -->
         <div class="math-glossary">
           <p><strong>T</strong> &equiv; Total gross tip capital (£)</p>
           <p><strong>N</strong> &equiv; Total eligible staff population (|S| = n<sub>BM</sub> + n<sub>FT</sub> + n<sub>PT</sub>)</p>
@@ -822,13 +942,14 @@
   </div>
 
   <script>
+    // Staff State
     const staffState = {
       bm: 4,
       ft: 5,
       pt: 4
     };
 
-    // Main Elements
+    // DOM Elements
     const totalTipsInput = document.getElementById('totalTips');
     const staffTrigger = document.getElementById('staffTrigger');
     const staffPanel = document.getElementById('staffPanel');
@@ -870,6 +991,53 @@
     const modalFTSummary = document.getElementById('modalFTSummary');
     const modalPTSummary = document.getElementById('modalPTSummary');
 
+    // PWA Install Elements
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const iosStepsBox = document.getElementById('iosStepsBox');
+
+    let deferredPrompt = null;
+
+    // Check if running as standalone app
+    const isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    // Detect iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (!isRunningStandalone) {
+      if (isIOS) {
+        // Show iOS Add to Home Screen trigger
+        installBanner.style.display = 'flex';
+        installBtn.textContent = 'How to Install';
+        installBtn.addEventListener('click', () => {
+          iosStepsBox.classList.toggle('open');
+        });
+      }
+
+      // Android / Chromium beforeinstallprompt listener
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBanner.style.display = 'flex';
+        installBtn.textContent = 'Install';
+
+        installBtn.onclick = async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            installBanner.style.display = 'none';
+          }
+          deferredPrompt = null;
+        };
+      });
+
+      window.addEventListener('appinstalled', () => {
+        installBanner.style.display = 'none';
+        iosStepsBox.classList.remove('open');
+      });
+    }
+
     // Accordion Dropdown
     staffTrigger.addEventListener('click', () => {
       const isOpen = staffPanel.classList.toggle('open');
@@ -909,7 +1077,6 @@
       cardFT.style.display = staffState.ft > 0 ? 'flex' : 'none';
       cardPT.style.display = staffState.pt > 0 ? 'flex' : 'none';
 
-      // Dynamic calculation of weighted points
       const totalPoints = (staffState.bm * 3) + (staffState.ft * 2) + (staffState.pt * 1);
       modalPointsFormula.textContent = `(${staffState.bm}×3) + (${staffState.ft}×2) + (${staffState.pt}×1)`;
       modalTotalPoints.textContent = `${totalPoints} pts total`;
@@ -956,7 +1123,7 @@
       ftGroupTotal.textContent = `Group (${staffState.ft}): £${(ftFinal * staffState.ft).toFixed(2)}`;
       ptGroupTotal.textContent = `Group (${staffState.pt}): £${(ptFinal * staffState.pt).toFixed(2)}`;
 
-      // Update Breakdown with live values in play
+      // Update Breakdown
       modalHalfX.textContent = `£${halfX.toFixed(2)}`;
       modalHalfY.textContent = `£${halfY.toFixed(2)}`;
       modalXFormula.textContent = `£${halfX.toFixed(2)} ÷ ${totalStaff} staff`;
@@ -980,6 +1147,15 @@
     totalTipsInput.addEventListener('input', calculate);
 
     window.addEventListener('DOMContentLoaded', calculate);
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('Tip Split Service Worker registered:', reg.scope))
+          .catch((err) => console.error('Tip Split Service Worker registration failed:', err));
+      });
+    }
   </script>
 </body>
 </html>
