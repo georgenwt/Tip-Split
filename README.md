@@ -1,56 +1,33 @@
-# Tip Split
+# Tip Split (tip2split.com)
 
-Tip Split is a mobile-first Progressive Web App (PWA) designed for store teams to calculate and distribute tip pools fairly, transparently, and instantly.
-
-Built with frosted liquid glassmorphism, spring physics, and Costa Burgundy (#730723) theming, the application automates a dual-tier tip distribution model: a 50% baseline equal share combined with a 50% role-weighted dividend.
+A mobile-first progressive web application (PWA) for calculating fair tip allocations across store staff using a 50/50 weighted split algorithm. Linked to its sister app, Daydot Calc (`day2dot.com`)[cite: 6].
 
 ---
 
 ## Features
 
-- Mobile-First Liquid Glass Interface: High-end frosted glass styling (backdrop-filter: blur), floating ambient background orbs, and spring bounce animations.
-- Progressive Web App (PWA): Fully installable on iOS and Android with offline caching via sw.js and standalone full-screen support.
-- Dual-Tier Mathematical Distribution:
-  - Half X (50%): Divided equally across all eligible team members.
-  - Half Y (50%): Weighted based on role and contract type:
-    - BMs (Assistant Managers): 3 points (Highest share)
-    - Full-Time Staff: 2 points
-    - Part-Time Staff: 1 point
-- Live Interactive Roster Controls: Easily tweak staffing levels with tactile step counters in an accordion drawer.
-- Detailed Math Modal: Complete visibility into the live calculations and an academic textbook-level reference formula for pen-and-paper verification.
+* **50/50 Pool Partition Algorithm**:
+  * **Half X**: Divided uniformly across all working staff members.
+  * **Half Y**: Weighted by role and contract type (BM = 3 pts, Full Time = 2 pts, Part Time = 1 pt).
+* **Step Adjustments**: Fine-tune individual role payouts using `+£1` / `-£1` steppers with auto-balancing across other staff[cite: 4, 6].
+* **Transparent Breakdown**: Modal detailing the step-by-step pool division, point values, and the mathematical formula[cite: 4, 6].
+* **Sister-App Navigation Dock**: Centered, flush bottom dock to jump directly to **Day Dot** (`day2dot.com`)[cite: 6].
+* **Offline PWA Support**: Precached assets and local Jost fonts ensure full functionality offline[cite: 5, 6].
 
 ---
 
-## Mathematical Formulation
-
-Let the team be a finite set of eligible workers S = {1, 2, ..., N} partitioned into three disjoint subsets:
-- S_BM: Assistant Managers (Weight w_i = 3)
-- S_FT: Full-Time Staff (Weight w_i = 2)
-- S_PT: Part-Time Staff (Weight w_i = 1)
-
-### 1. Total Tip Pool Partitioning
-The gross tip capital T is partitioned into two equal pools:
-X = Y = T / 2
-
-### 2. Total Weighted Role Points (W)
-W = sum_{i in S} w_i = 3|S_BM| + 2|S_FT| + 1|S_PT|
-
-### 3. Master Closed-Form Dividend Formula
-The individualized tip payout P_i for any worker i is defined as:
-
-P_i = (T / (2N)) + w_i * (T / (2W))
-
-Factored form:
-P_i = (T / 2) * [ (1 / N) + (w_i / (3n_BM + 2n_FT + n_PT)) ]
+Calculation FormulaFor total tips $T$, staff population $S$ of size $N$, and role weights $w_i \in \{1, 2, 3\}$:$$W = \sum_{i \in S} w_i = 3|S_{\text{BM}}| + 2|S_{\text{FT}}| + 1|S_{\text{PT}}|$$$$P_i = \frac{T}{2N} + w_i \cdot \frac{T}{2W}$$Where $P_i$ represents the individual dividend for each worker.
 
 ---
 
-## Project Structure
+## File Structure
 
 ```text
-tip-split/
-├── index.html       # Single-page web application UI and calculation engine
-├── manifest.json    # Web App Manifest for mobile installation
-├── sw.js            # Service Worker for offline asset caching
-├── icon.png         # App icon (192x192 and 512x512 recommended)
-└── README.md        # Project documentation
+├── fonts/
+│   ├── jost-v18-latin-regular.woff2
+│   ├── jost-v18-latin-700.woff2
+│   └── jost-v18-latin-800.woff2
+├── icon.png
+├── index.html
+├── manifest.json
+└── sw.js
