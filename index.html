@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Tip Split</title>
 
-  <!-- Color Scheme & Seamless Navigation Scrim -->
+  <!-- Color Scheme & System Theme -->
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#730723" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -18,7 +18,7 @@
   <link rel="icon" type="image/png" href="icon.png" />
 
   <style>
-    /* Local Self-Hosted Jost (@font-face) */
+    /* Local Jost @font-face */
     @font-face {
       font-family: 'Jost';
       font-style: normal;
@@ -26,7 +26,6 @@
       font-display: swap;
       src: url('./fonts/jost-v18-latin-regular.woff2') format('woff2');
     }
-
     @font-face {
       font-family: 'Jost';
       font-style: normal;
@@ -34,7 +33,6 @@
       font-display: swap;
       src: url('./fonts/jost-v18-latin-700.woff2') format('woff2');
     }
-
     @font-face {
       font-family: 'Jost';
       font-style: normal;
@@ -50,9 +48,9 @@
       --costa-light: #9e1338;
       --glass-card: rgba(255, 255, 255, 0.16);
       --glass-border: rgba(255, 255, 255, 0.26);
-      --glass-modal: rgba(45, 4, 14, 0.92);
+      --glass-modal: rgba(45, 4, 14, 0.94);
       --text-main: #ffffff;
-      --text-muted: rgba(255, 255, 255, 0.76);
+      --text-muted: rgba(255, 255, 255, 0.74);
       --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -67,28 +65,23 @@
     html {
       color-scheme: dark;
       background-color: var(--costa-dark);
-      min-height: 100%;
       height: 100%;
+      overflow: hidden;
     }
 
     body {
       color-scheme: dark;
-      margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
+      height: 100%;
+      height: 100dvh;
       background-color: var(--costa-dark);
-      background-image: radial-gradient(circle at 20% 15%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
-      background-repeat: no-repeat;
-      background-size: cover;
+      background-image: radial-gradient(circle at 50% 20%, var(--costa-light), var(--costa-burgundy) 55%, var(--costa-dark));
       color: var(--text-main);
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: max(20px, env(safe-area-inset-top));
-      padding-left: max(16px, env(safe-area-inset-left));
-      padding-right: max(16px, env(safe-area-inset-right));
-      padding-bottom: calc(24px + env(safe-area-inset-bottom));
-      overflow-x: hidden;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: max(12px, env(safe-area-inset-top)) 14px calc(12px + env(safe-area-inset-bottom));
+      overflow: hidden;
       position: relative;
     }
 
@@ -105,23 +98,28 @@
       position: absolute;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.1) 65%, transparent 80%);
-      box-shadow: inset -5px -5px 12px rgba(0, 0, 0, 0.25), inset 5px 5px 15px rgba(255, 255, 255, 0.4);
-      opacity: 0.55;
+      box-shadow: inset -4px -4px 10px rgba(0, 0, 0, 0.25), inset 4px 4px 14px rgba(255, 255, 255, 0.35);
+      opacity: 0.5;
       animation: floatAround infinite ease-in-out alternate;
     }
 
-    .bubble-1 { width: 160px; height: 160px; top: -40px; left: -30px; animation-duration: 7s; }
-    .bubble-2 { width: 100px; height: 100px; top: 42%; right: -25px; animation-duration: 9.5s; }
-    .bubble-3 { width: 130px; height: 130px; bottom: 6%; left: -35px; animation-duration: 8s; }
-    .bubble-4 { width: 80px; height: 80px; bottom: 28%; right: 12%; animation-duration: 6.5s; }
+    /* Perimeter Bubbles */
+    .bubble-1 { width: 140px; height: 140px; top: -30px; left: -25px; animation-duration: 7s; }
+    .bubble-2 { width: 90px; height: 90px; top: 15%; right: -20px; animation-duration: 9.5s; }
+    .bubble-3 { width: 110px; height: 110px; bottom: 12%; left: -30px; animation-duration: 8s; }
+
+    /* Centered Screen Visible Bubbles */
+    .bubble-center-1 { width: 130px; height: 130px; top: 38%; left: 15%; opacity: 0.38; animation-duration: 8.5s; animation-delay: -2s; }
+    .bubble-center-2 { width: 100px; height: 100px; top: 52%; right: 18%; opacity: 0.35; animation-duration: 7.2s; animation-delay: -4s; }
+    .bubble-center-3 { width: 75px; height: 75px; top: 46%; left: 45%; opacity: 0.32; animation-duration: 6.8s; animation-delay: -1s; }
 
     @keyframes floatAround {
-      0% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(-34px) scale(1.08) rotate(12deg); }
-      100% { transform: translateY(20px) scale(0.94) rotate(-10deg); }
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(12px, -24px) scale(1.06) rotate(8deg); }
+      100% { transform: translate(-10px, 16px) scale(0.95) rotate(-6deg); }
     }
 
-    /* Main Container */
+    /* App Shell Container */
     .app-container {
       width: 100%;
       max-width: 440px;
@@ -129,145 +127,51 @@
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      animation: heavyEntrance 0.75s var(--spring-bounce);
+      gap: 10px;
+      flex: 1;
+      justify-content: flex-start;
+      overflow: hidden;
+      animation: heavyEntrance 0.65s var(--spring-bounce);
     }
 
     @keyframes heavyEntrance {
-      0% { opacity: 0; transform: translateY(50px) scale(0.92); }
-      60% { transform: translateY(-10px) scale(1.02); }
+      0% { opacity: 0; transform: translateY(40px) scale(0.94); }
+      60% { transform: translateY(-8px) scale(1.02); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     /* Liquid Glass Base */
     .glass-card {
       background: var(--glass-card);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      border-radius: 24px;
-      padding: 16px 18px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 12px 14px;
       border: 1px solid var(--glass-border);
-      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.38);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.35);
     }
 
     .header-card {
       text-align: center;
-      padding: 14px;
+      padding: 8px 12px;
     }
 
     h1 {
-      font-size: 1.95rem;
+      font-size: 1.55rem;
       font-weight: 800;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.5px;
     }
 
-    /* Install Prompt Banner */
-    .install-banner {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 20px;
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.12));
-    }
-
-    .install-banner-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .install-app-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      flex-shrink: 0;
-      background: rgba(0, 0, 0, 0.25);
-      object-fit: cover;
-    }
-
-    .install-text-wrap {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .install-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-    }
-
-    .install-subtitle {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-    }
-
-    .install-action-btn {
-      background: rgba(255, 255, 255, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 0.84rem;
-      font-weight: 800;
-      padding: 7px 12px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.25s var(--spring-bounce);
-    }
-
-    .install-action-btn:active {
-      transform: scale(0.92);
-    }
-
-    /* iOS Step Guidance */
-    .ios-install-steps {
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.24);
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-size: 0.82rem;
-      line-height: 1.4;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    .ios-install-steps.open {
-      display: flex;
-    }
-
-    .ios-step-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .step-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.22);
-      font-weight: 800;
-      font-size: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    /* Fields */
+    /* Form Fields */
     .field-group {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -281,8 +185,8 @@
 
     .currency-symbol {
       position: absolute;
-      left: 16px;
-      font-size: 1.15rem;
+      left: 14px;
+      font-size: 1.1rem;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.85);
       pointer-events: none;
@@ -300,10 +204,10 @@
       width: 100%;
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
-      border-radius: 18px;
-      padding: 13px 14px 13px 34px;
+      border-radius: 16px;
+      padding: 10px 12px 10px 32px;
       color: #fff;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       outline: none;
       transition: all 0.3s var(--spring-bounce);
@@ -312,22 +216,22 @@
     input[type="number"]::placeholder {
       color: rgba(255, 255, 255, 0.45);
       font-weight: 400;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     input[type="number"]:focus {
       border-color: rgba(255, 255, 255, 0.75);
       background: rgba(0, 0, 0, 0.34);
-      transform: scale(1.02);
+      transform: scale(1.01);
     }
 
-    /* Staff Dropdown Trigger */
+    /* Staff Accordion Trigger */
     .dropdown-trigger {
       width: 100%;
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
-      border-radius: 18px;
-      padding: 13px 16px;
+      border-radius: 16px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -337,11 +241,11 @@
     }
 
     .dropdown-trigger:active {
-      transform: scale(0.96);
+      transform: scale(0.97);
     }
 
     .trigger-val {
-      font-size: 1.18rem;
+      font-size: 1.05rem;
       font-weight: 800;
       display: flex;
       align-items: baseline;
@@ -349,14 +253,14 @@
     }
 
     .trigger-sub {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 400;
       color: var(--text-muted);
     }
 
     .chevron {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       fill: none;
       stroke: #fff;
       stroke-width: 2.5;
@@ -372,7 +276,7 @@
     .dropdown-panel {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.45s var(--spring-bounce), margin-top 0.3s ease;
+      transition: grid-template-rows 0.4s var(--spring-bounce), margin-top 0.3s ease;
       margin-top: 0;
       border: none;
       background: transparent;
@@ -380,24 +284,24 @@
 
     .dropdown-panel.open {
       grid-template-rows: 1fr;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .dropdown-inner {
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       background: transparent;
-      border-radius: 18px;
+      border-radius: 16px;
       padding: 0;
       border: none;
-      transition: padding 0.35s ease, background 0.35s ease;
+      transition: padding 0.3s ease, background 0.3s ease;
     }
 
     .dropdown-panel.open .dropdown-inner {
       background: rgba(0, 0, 0, 0.18);
-      padding: 10px;
+      padding: 8px;
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
@@ -406,30 +310,30 @@
       justify-content: space-between;
       align-items: center;
       background: rgba(255, 255, 255, 0.08);
-      padding: 9px 12px;
-      border-radius: 14px;
+      padding: 6px 10px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.14);
     }
 
     .role-info-label {
       font-weight: 700;
-      font-size: 0.98rem;
+      font-size: 0.9rem;
     }
 
     .counter-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .counter-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -440,91 +344,214 @@
     }
 
     .counter-btn:active {
-      transform: scale(0.78);
+      transform: scale(0.82);
       background: rgba(255, 255, 255, 0.4);
     }
 
     .counter-num {
-      width: 26px;
+      width: 22px;
       text-align: center;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
     }
 
-    /* Results */
+    /* Results Grid */
     .results-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .result-card {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 18px;
+      padding: 10px 14px;
+    }
+
+    .res-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 80px;
     }
 
     .res-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
     }
 
     .res-sub {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 400;
       color: var(--text-muted);
-      margin-top: 2px;
+    }
+
+    /* Override Stepper Cluster */
+    .stepper-cluster {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-shift-btn {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 6px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s var(--spring-bounce), background 0.2s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .step-shift-btn:active {
+      transform: scale(0.84);
+      background: rgba(255, 255, 255, 0.35);
     }
 
     .res-payout-wrap {
-      text-align: right;
+      text-align: center;
+      min-width: 78px;
     }
 
     .payout-number {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: #fff;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+      line-height: 1.1;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     }
 
     .res-group-total {
-      font-size: 0.74rem;
+      font-size: 0.7rem;
       font-weight: 400;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .equation-btn {
       width: 100%;
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-radius: 20px;
-      padding: 13px;
+      border-radius: 16px;
+      padding: 9px;
       color: #ffffff;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      transition: transform 0.25s var(--spring-bounce), background 0.25s;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transition: transform 0.25s var(--spring-bounce);
     }
 
     .equation-btn:active {
-      transform: scale(0.94);
-      background: rgba(255, 255, 255, 0.26);
+      transform: scale(0.95);
     }
 
-    /* Modal Overlay */
+    /* ==========================================================================
+       START MODULAR NAVIGATION BAR COMPONENT (READY TO EXPORT TO DAY2DOT.COM)
+       ========================================================================== */
+    .floating-nav-dock {
+      width: 100%;
+      max-width: 440px;
+      z-index: 50;
+      position: relative;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .glass-nav-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 22px;
+      padding: 6px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .nav-icon-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 16px;
+      padding: 8px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.35s var(--spring-bounce);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-icon-btn:active {
+      transform: scale(0.94);
+    }
+
+    .nav-btn-line1 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .nav-btn-line2 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    /* Active Highlight Button State (Shimmer, Glow, Subtle Sparkle) */
+    .nav-icon-btn.active {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.1));
+      border: 1.5px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.22), inset 0 0 14px rgba(255, 255, 255, 0.35);
+      pointer-events: none; /* Prevents reload when already on this page */
+    }
+
+    /* Subtle glitter overlay on active button */
+    .nav-icon-btn.active::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      animation: glitterShine 3.5s infinite linear;
+    }
+
+    @keyframes glitterShine {
+      0% { transform: translateX(-150%); }
+      50%, 100% { transform: translateX(150%); }
+    }
+    /* ==========================================================================
+       END MODULAR NAVIGATION BAR COMPONENT
+       ========================================================================== */
+
+    /* Modal Overlay (Scrollable) */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 99;
@@ -532,8 +559,8 @@
       align-items: flex-end;
       justify-content: center;
       padding-top: max(16px, env(safe-area-inset-top));
-      padding-left: max(16px, env(safe-area-inset-left));
-      padding-right: max(16px, env(safe-area-inset-right));
+      padding-left: max(14px, env(safe-area-inset-left));
+      padding-right: max(14px, env(safe-area-inset-right));
       padding-bottom: 0;
       opacity: 0;
       pointer-events: none;
@@ -552,15 +579,15 @@
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 28px 28px 0 0;
-      padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
+      border-radius: 26px 26px 0 0;
+      padding: 18px 16px calc(24px + env(safe-area-inset-bottom));
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       transform: translateY(100%);
       transition: transform 0.45s var(--spring-bounce);
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      max-height: 85dvh;
+      gap: 14px;
+      max-height: 82dvh;
       overflow-y: auto;
     }
 
@@ -571,17 +598,17 @@
     .modal-top-bar {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: -6px;
+      margin-bottom: -4px;
     }
 
     .close-btn {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: #fff;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -591,52 +618,51 @@
     .modal-section-card {
       background: rgba(0, 0, 0, 0.28);
       border: 1.5px solid rgba(255, 255, 255, 0.18);
-      border-radius: 20px;
-      padding: 16px;
+      border-radius: 18px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .modal-section-card h2 {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
       color: #ffffff;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      padding-bottom: 8px;
+      padding-bottom: 6px;
     }
 
     .calc-step {
       background: rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 10px 12px;
+      border-radius: 12px;
+      padding: 8px 10px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.86rem;
-      line-height: 1.45;
+      font-size: 0.82rem;
+      line-height: 1.4;
     }
 
     .calc-step-title {
       font-weight: 700;
       color: #fff;
-      margin-bottom: 2px;
     }
 
     .calc-step-desc {
       font-weight: 400;
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.76rem;
     }
 
     .eq-row {
-      margin-top: 6px;
-      padding-top: 6px;
+      margin-top: 4px;
+      padding-top: 4px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 0.84rem;
+      font-size: 0.8rem;
     }
 
     .eq-row span {
@@ -652,11 +678,11 @@
     .math-block {
       background: rgba(255, 255, 255, 0.05);
       border-left: 3px solid rgba(255, 255, 255, 0.55);
-      padding: 9px 12px;
-      border-radius: 4px 12px 12px 4px;
+      padding: 8px 10px;
+      border-radius: 4px 10px 10px 4px;
       font-family: 'Cambria Math', 'Times New Roman', Times, serif;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.92rem;
+      line-height: 1.5;
       color: #ffffff;
       overflow-x: auto;
     }
@@ -680,75 +706,42 @@
     }
 
     .math-glossary {
-      font-size: 0.8rem;
-      line-height: 1.55;
+      font-size: 0.76rem;
+      line-height: 1.5;
       color: var(--text-muted);
       background: rgba(0, 0, 0, 0.16);
-      padding: 10px 12px;
-      border-radius: 14px;
-    }
-
-    .math-glossary p {
-      margin-bottom: 6px;
-    }
-
-    .math-glossary p:last-child {
-      margin-bottom: 0;
-    }
-
-    .math-glossary strong {
-      color: #fff;
-      font-family: 'Cambria Math', 'Times New Roman', serif;
-      font-size: 0.88rem;
+      padding: 8px 10px;
+      border-radius: 12px;
     }
 
     .bounce-pop {
-      animation: heavyPop 0.5s var(--spring-bounce);
+      animation: heavyPop 0.45s var(--spring-bounce);
     }
 
     @keyframes heavyPop {
-      0% { transform: scale(0.92); }
-      50% { transform: scale(1.06); }
+      0% { transform: scale(0.93); }
+      50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating Liquid Bubbles -->
+  <!-- Floating Liquid Bubbles (Perimeter & Centered) -->
   <div class="bubble-layer">
     <div class="bubble bubble-1"></div>
     <div class="bubble bubble-2"></div>
     <div class="bubble bubble-3"></div>
-    <div class="bubble bubble-4"></div>
+    <!-- Centered Obvious Floating Orbs -->
+    <div class="bubble bubble-center-1"></div>
+    <div class="bubble bubble-center-2"></div>
+    <div class="bubble bubble-center-3"></div>
   </div>
 
   <main class="app-container">
     <header class="glass-card header-card">
       <h1>Tip Split</h1>
     </header>
-
-    <section class="glass-card install-banner" id="installBanner">
-      <div class="install-banner-content">
-        <img src="icon.png" alt="App Icon" class="install-app-icon" onerror="this.style.display='none'" />
-        <div class="install-text-wrap">
-          <span class="install-title">Get Tip Split</span>
-          <span class="install-subtitle">Install as a native web app</span>
-        </div>
-      </div>
-      <button class="install-action-btn" id="installBtn" type="button">Install</button>
-    </section>
-
-    <div class="glass-card ios-install-steps" id="iosStepsBox">
-      <div class="ios-step-item">
-        <span class="step-num">1</span>
-        <span>Tap the <strong>Share</strong> button in Safari's toolbar.</span>
-      </div>
-      <div class="ios-step-item">
-        <span class="step-num">2</span>
-        <span>Scroll down and tap <strong>Add to Home Screen</strong>.</span>
-      </div>
-    </div>
 
     <!-- Main Inputs -->
     <section class="glass-card">
@@ -777,27 +770,27 @@
             <div class="counter-row">
               <div class="role-info-label">BMs</div>
               <div class="counter-controls">
-                <button class="counter-btn" onclick="adjustCount('bm', -1)">−</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('bm', -1)">−</button>
                 <span class="counter-num" id="bmCount">4</span>
-                <button class="counter-btn" onclick="adjustCount('bm', 1)">+</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('bm', 1)">+</button>
               </div>
             </div>
 
             <div class="counter-row">
               <div class="role-info-label">Full Time</div>
               <div class="counter-controls">
-                <button class="counter-btn" onclick="adjustCount('ft', -1)">−</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('ft', -1)">−</button>
                 <span class="counter-num" id="ftCount">5</span>
-                <button class="counter-btn" onclick="adjustCount('ft', 1)">+</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('ft', 1)">+</button>
               </div>
             </div>
 
             <div class="counter-row">
               <div class="role-info-label">Part Time</div>
               <div class="counter-controls">
-                <button class="counter-btn" onclick="adjustCount('pt', -1)">−</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('pt', -1)">−</button>
                 <span class="counter-num" id="ptCount">4</span>
-                <button class="counter-btn" onclick="adjustCount('pt', 1)">+</button>
+                <button class="counter-btn" onclick="adjustRoleHeadcount('pt', 1)">+</button>
               </div>
             </div>
           </div>
@@ -805,46 +798,87 @@
       </div>
     </section>
 
-    <!-- Results Cards -->
+    <!-- Results Cards with ±£1 Steppers -->
     <section class="results-grid">
+      <!-- BM Card -->
       <article class="glass-card result-card" id="cardBM">
-        <div>
+        <div class="res-info">
           <div class="res-title">BMs</div>
           <div class="res-sub" id="bmSub">4 staff</div>
         </div>
-        <div class="res-payout-wrap">
-          <div class="payout-number" id="bmPayout">£0.00</div>
-          <div class="res-group-total" id="bmGroupTotal">Group: £0.00</div>
+
+        <div class="stepper-cluster">
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('bm', -1)">−£1</button>
+          <div class="res-payout-wrap">
+            <div class="payout-number" id="bmPayout">£0.00</div>
+            <div class="res-group-total" id="bmGroupTotal">Group: £0.00</div>
+          </div>
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('bm', 1)">+£1</button>
         </div>
       </article>
 
+      <!-- Full Time Card -->
       <article class="glass-card result-card" id="cardFT">
-        <div>
+        <div class="res-info">
           <div class="res-title">Full Time</div>
           <div class="res-sub" id="ftSub">5 staff</div>
         </div>
-        <div class="res-payout-wrap">
-          <div class="payout-number" id="ftPayout">£0.00</div>
-          <div class="res-group-total" id="ftGroupTotal">Group: £0.00</div>
+
+        <div class="stepper-cluster">
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('ft', -1)">−£1</button>
+          <div class="res-payout-wrap">
+            <div class="payout-number" id="ftPayout">£0.00</div>
+            <div class="res-group-total" id="ftGroupTotal">Group: £0.00</div>
+          </div>
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('ft', 1)">+£1</button>
         </div>
       </article>
 
+      <!-- Part Time Card -->
       <article class="glass-card result-card" id="cardPT">
-        <div>
+        <div class="res-info">
           <div class="res-title">Part Time</div>
           <div class="res-sub" id="ptSub">4 staff</div>
         </div>
-        <div class="res-payout-wrap">
-          <div class="payout-number" id="ptPayout">£0.00</div>
-          <div class="res-group-total" id="ptGroupTotal">Group: £0.00</div>
+
+        <div class="stepper-cluster">
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('pt', -1)">−£1</button>
+          <div class="res-payout-wrap">
+            <div class="payout-number" id="ptPayout">£0.00</div>
+            <div class="res-group-total" id="ptGroupTotal">Group: £0.00</div>
+          </div>
+          <button class="step-shift-btn" type="button" onclick="shiftRoleValue('pt', 1)">+£1</button>
         </div>
       </article>
     </section>
 
+    <!-- Modal Trigger Button -->
     <button class="equation-btn" id="openModalBtn" type="button">
       <span>View Equation & Breakdown</span>
     </button>
   </main>
+
+  <!-- ==========================================================================
+       START MODULAR NAVIGATION DOCK (EXPORTABLE TO DAY2DOT.COM)
+       ========================================================================== -->
+  <nav class="floating-nav-dock" aria-label="Quick Switcher">
+    <div class="glass-nav-bar">
+      <!-- Button 1: Tip Split (Current Page: active, non-refreshing) -->
+      <a href="javascript:void(0)" class="nav-icon-btn active" aria-current="page" onclick="return false;">
+        <span class="nav-btn-line1">Tip</span>
+        <span class="nav-btn-line2">Split</span>
+      </a>
+
+      <!-- Button 2: Day Dot (Links to day2dot.com) -->
+      <a href="https://www.day2dot.com" class="nav-icon-btn" rel="noopener">
+        <span class="nav-btn-line1">Day</span>
+        <span class="nav-btn-line2">Dot</span>
+      </a>
+    </div>
+  </nav>
+  <!-- ==========================================================================
+       END MODULAR NAVIGATION DOCK
+       ========================================================================== -->
 
   <!-- Modal Sheet -->
   <div class="modal-overlay" id="modalOverlay">
@@ -893,17 +927,17 @@
 
         <div class="calc-step">
           <div class="calc-step-title">4. Individual Payout Calculations</div>
-          <div class="calc-step-desc">Formula: Equal Share (X) + (Role Points × Point Value)</div>
+          <div class="calc-step-desc">Equal Share (X) + (Role Points × Point Value) ± Manual adjustments</div>
           <div class="eq-row">
-            <span>BM (3 pts):</span>
+            <span>BM:</span>
             <strong id="modalBMSummary">£0.00</strong>
           </div>
           <div class="eq-row">
-            <span>Full Time (2 pts):</span>
+            <span>Full Time:</span>
             <strong id="modalFTSummary">£0.00</strong>
           </div>
           <div class="eq-row">
-            <span>Part Time (1 pt):</span>
+            <span>Part Time:</span>
             <strong id="modalPTSummary">£0.00</strong>
           </div>
         </div>
@@ -912,8 +946,8 @@
       <section class="modal-section-card">
         <h2>Full Equation</h2>
         
-        <p style="font-size: 0.8rem; color: var(--text-muted);">
-          Let the workplace population be a finite set <span style="font-family: serif; color:#fff;">S = {1, 2, ..., N}</span> partitioned into three mutually disjoint subsets: <span style="font-family: serif; color:#fff;">S<sub>BM</sub></span>, <span style="font-family: serif; color:#fff;">S<sub>FT</sub></span>, and <span style="font-family: serif; color:#fff;">S<sub>PT</sub></span>.
+        <p style="font-size: 0.78rem; color: var(--text-muted);">
+          Let the workplace population be a finite set <span style="font-family: serif; color:#fff;">S = {1, 2, ..., N}</span> partitioned into subsets: <span style="font-family: serif; color:#fff;">S<sub>BM</sub></span>, <span style="font-family: serif; color:#fff;">S<sub>FT</sub></span>, and <span style="font-family: serif; color:#fff;">S<sub>PT</sub></span>.
         </p>
 
         <div class="math-block">
@@ -934,47 +968,36 @@
           </span>
         </div>
 
-        <div class="math-block">
-          P<sub>i</sub> = 
-          <span class="math-frac">
-            <span class="math-num">T</span>
-            <span class="math-den">2</span>
-          </span>
-          &middot;
-          <span style="font-size: 1.2em;">[</span>
-          <span class="math-frac">
-            <span class="math-num">1</span>
-            <span class="math-den">N</span>
-          </span>
-          +
-          <span class="math-frac">
-            <span class="math-num">w<sub>i</sub></span>
-            <span class="math-den">3n<sub>BM</sub> + 2n<sub>FT</sub> + n<sub>PT</sub></span>
-          </span>
-          <span style="font-size: 1.2em;">]</span>
-        </div>
-
         <div class="math-glossary">
-          <p><strong>T</strong> &equiv; Total gross tip capital (£)</p>
-          <p><strong>N</strong> &equiv; Total eligible staff population (|S| = n<sub>BM</sub> + n<sub>FT</sub> + n<sub>PT</sub>)</p>
-          <p><strong>W</strong> &equiv; Total weighted points across all staff members</p>
-          <p><strong>w<sub>i</sub></strong> &equiv; Discrete role weighting coefficient for staff member <em>i</em>:<br />
-             &bull; w<sub>i</sub> = 3 &nbsp;for <em>i</em> &in; S<sub>BM</sub> (Assistant Managers)<br />
-             &bull; w<sub>i</sub> = 2 &nbsp;for <em>i</em> &in; S<sub>FT</sub> (Full Time)<br />
-             &bull; w<sub>i</sub> = 1 &nbsp;for <em>i</em> &in; S<sub>PT</sub> (Part Time)</p>
-          <p><strong>P<sub>i</sub></strong> &equiv; Net individualized tip dividend for worker <em>i</em></p>
+          <p><strong>T</strong> &equiv; Total gross tip pool (£)</p>
+          <p><strong>N</strong> &equiv; Total eligible staff population</p>
+          <p><strong>W</strong> &equiv; Aggregate sum of weighted role points</p>
+          <p><strong>w<sub>i</sub></strong> &equiv; Discrete coefficient (BM: 3, FT: 2, PT: 1)</p>
+          <p><strong>P<sub>i</sub></strong> &equiv; Net dividend for worker <em>i</em></p>
         </div>
       </section>
     </div>
   </div>
 
   <script>
+    // Staff Counts
     const staffState = {
       bm: 4,
       ft: 5,
       pt: 4
     };
 
+    // Current individualized payouts
+    const payoutState = {
+      bm: 0,
+      ft: 0,
+      pt: 0
+    };
+
+    // Track if user has made custom ±£1 adjustments
+    let hasCustomAdjustment = false;
+
+    // Elements
     const totalTipsInput = document.getElementById('totalTips');
     const staffTrigger = document.getElementById('staffTrigger');
     const staffPanel = document.getElementById('staffPanel');
@@ -1015,68 +1038,33 @@
     const modalFTSummary = document.getElementById('modalFTSummary');
     const modalPTSummary = document.getElementById('modalPTSummary');
 
-    const installBanner = document.getElementById('installBanner');
-    const installBtn = document.getElementById('installBtn');
-    const iosStepsBox = document.getElementById('iosStepsBox');
-
-    let deferredPrompt = null;
-    const isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-    if (!isRunningStandalone) {
-      if (isIOS) {
-        installBanner.style.display = 'flex';
-        installBtn.textContent = 'How to Install';
-        installBtn.addEventListener('click', () => {
-          iosStepsBox.classList.toggle('open');
-        });
-      }
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBanner.style.display = 'flex';
-        installBtn.textContent = 'Install';
-
-        installBtn.onclick = async () => {
-          if (!deferredPrompt) return;
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          if (outcome === 'accepted') {
-            installBanner.style.display = 'none';
-          }
-          deferredPrompt = null;
-        };
-      });
-
-      window.addEventListener('appinstalled', () => {
-        installBanner.style.display = 'none';
-        iosStepsBox.classList.remove('open');
-      });
-    }
-
+    // Accordion Toggle
     staffTrigger.addEventListener('click', () => {
       const isOpen = staffPanel.classList.toggle('open');
       staffTrigger.classList.toggle('open');
       staffTrigger.setAttribute('aria-expanded', isOpen);
     });
 
-    function adjustCount(role, delta) {
+    // Adjust Headcount
+    function adjustRoleHeadcount(role, delta) {
       if (staffState[role] + delta >= 0) {
         staffState[role] += delta;
         bmCountEl.textContent = staffState.bm;
         ftCountEl.textContent = staffState.ft;
         ptCountEl.textContent = staffState.pt;
+        hasCustomAdjustment = false; // Reset to clean math on roster change
         calculate();
       }
     }
 
+    // Modal Control
     openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
+    // Primary Calculation
     function calculate() {
       const totalTips = parseFloat(totalTipsInput.value) || 0;
       const totalStaff = staffState.bm + staffState.ft + staffState.pt;
@@ -1095,12 +1083,10 @@
       modalTotalPoints.textContent = `${totalPoints} pts total`;
 
       if (totalTips <= 0 || totalStaff <= 0) {
-        bmPayout.textContent = '£0.00';
-        ftPayout.textContent = '£0.00';
-        ptPayout.textContent = '£0.00';
-        bmGroupTotal.textContent = 'Group: £0.00';
-        ftGroupTotal.textContent = 'Group: £0.00';
-        ptGroupTotal.textContent = 'Group: £0.00';
+        payoutState.bm = 0;
+        payoutState.ft = 0;
+        payoutState.pt = 0;
+        renderOutputs();
 
         modalHalfX.textContent = '£0.00';
         modalHalfY.textContent = '£0.00';
@@ -1113,51 +1099,97 @@
         return;
       }
 
-      const halfX = totalTips / 2;
-      const halfY = totalTips / 2;
+      if (!hasCustomAdjustment) {
+        const halfX = totalTips / 2;
+        const halfY = totalTips / 2;
 
-      const equalShare = halfX / totalStaff;
-      const pointValue = totalPoints > 0 ? halfY / totalPoints : 0;
+        const equalShare = halfX / totalStaff;
+        const pointValue = totalPoints > 0 ? halfY / totalPoints : 0;
 
-      const bmFinal = equalShare + (3 * pointValue);
-      const ftFinal = equalShare + (2 * pointValue);
-      const ptFinal = equalShare + (1 * pointValue);
+        payoutState.bm = staffState.bm > 0 ? equalShare + (3 * pointValue) : 0;
+        payoutState.ft = staffState.ft > 0 ? equalShare + (2 * pointValue) : 0;
+        payoutState.pt = staffState.pt > 0 ? equalShare + (1 * pointValue) : 0;
 
-      bmPayout.textContent = `£${bmFinal.toFixed(2)}`;
-      ftPayout.textContent = `£${ftFinal.toFixed(2)}`;
-      ptPayout.textContent = `£${ptFinal.toFixed(2)}`;
+        modalHalfX.textContent = `£${halfX.toFixed(2)}`;
+        modalHalfY.textContent = `£${halfY.toFixed(2)}`;
+        modalXFormula.textContent = `£${halfX.toFixed(2)} ÷ ${totalStaff} staff`;
+        modalEqualShare.textContent = `£${equalShare.toFixed(2)} each`;
+        modalPointValue.textContent = `£${pointValue.toFixed(2)} / pt`;
 
-      bmGroupTotal.textContent = `Group (${staffState.bm}): £${(bmFinal * staffState.bm).toFixed(2)}`;
-      ftGroupTotal.textContent = `Group (${staffState.ft}): £${(ftFinal * staffState.ft).toFixed(2)}`;
-      ptGroupTotal.textContent = `Group (${staffState.pt}): £${(ptFinal * staffState.pt).toFixed(2)}`;
+        modalBMSummary.textContent = `£${equalShare.toFixed(2)} + (3 × £${pointValue.toFixed(2)}) = £${payoutState.bm.toFixed(2)}`;
+        modalFTSummary.textContent = `£${equalShare.toFixed(2)} + (2 × £${pointValue.toFixed(2)}) = £${payoutState.ft.toFixed(2)}`;
+        modalPTSummary.textContent = `£${equalShare.toFixed(2)} + (1 × £${pointValue.toFixed(2)}) = £${payoutState.pt.toFixed(2)}`;
+      }
 
-      modalHalfX.textContent = `£${halfX.toFixed(2)}`;
-      modalHalfY.textContent = `£${halfY.toFixed(2)}`;
-      modalXFormula.textContent = `£${halfX.toFixed(2)} ÷ ${totalStaff} staff`;
-      modalEqualShare.textContent = `£${equalShare.toFixed(2)} each`;
-      modalPointValue.textContent = `£${pointValue.toFixed(2)} / pt`;
-
-      modalBMSummary.textContent = `£${equalShare.toFixed(2)} + (3 × £${pointValue.toFixed(2)}) = £${bmFinal.toFixed(2)}`;
-      modalFTSummary.textContent = `£${equalShare.toFixed(2)} + (2 × £${pointValue.toFixed(2)}) = £${ftFinal.toFixed(2)}`;
-      modalPTSummary.textContent = `£${equalShare.toFixed(2)} + (1 × £${pointValue.toFixed(2)}) = £${ptFinal.toFixed(2)}`;
-
-      [cardBM, cardFT, cardPT].forEach(card => {
-        if (card.style.display !== 'none') {
-          card.classList.remove('bounce-pop');
-          void card.offsetWidth;
-          card.classList.add('bounce-pop');
-        }
-      });
+      renderOutputs();
     }
 
-    totalTipsInput.addEventListener('input', calculate);
+    // Proportional ±£1 Adjustment Rebalancing Engine
+    function shiftRoleValue(targetRole, delta) {
+      const totalTips = parseFloat(totalTipsInput.value) || 0;
+      if (totalTips <= 0 || staffState[targetRole] <= 0) return;
+
+      const targetHeadcount = staffState[targetRole];
+      const deltaTotal = delta * targetHeadcount;
+
+      // Find other active roles to absorb the difference
+      const otherRoles = ['bm', 'ft', 'pt'].filter(r => r !== targetRole && staffState[r] > 0);
+      if (otherRoles.length === 0) return; // Cannot shift if only 1 role exists
+
+      const otherStaffCount = otherRoles.reduce((sum, r) => sum + staffState[r], 0);
+      if (otherStaffCount <= 0) return;
+
+      // Check if target role would drop below £0
+      if (payoutState[targetRole] + delta < 0) return;
+
+      // Check if other roles can absorb the subtraction without going negative
+      const perStaffDeduction = deltaTotal / otherStaffCount;
+      const wouldCauseNegative = otherRoles.some(r => (payoutState[r] - perStaffDeduction) < 0);
+      if (wouldCauseNegative) return;
+
+      // Apply adjustment
+      hasCustomAdjustment = true;
+      payoutState[targetRole] += delta;
+
+      // Distribute evenly across remaining staff so grand pool remains identical
+      otherRoles.forEach(r => {
+        payoutState[r] -= perStaffDeduction;
+      });
+
+      renderOutputs(true);
+    }
+
+    // Render numbers to DOM
+    function renderOutputs(animate = false) {
+      bmPayout.textContent = `£${payoutState.bm.toFixed(2)}`;
+      ftPayout.textContent = `£${payoutState.ft.toFixed(2)}`;
+      ptPayout.textContent = `£${payoutState.pt.toFixed(2)}`;
+
+      bmGroupTotal.textContent = `Group (${staffState.bm}): £${(payoutState.bm * staffState.bm).toFixed(2)}`;
+      ftGroupTotal.textContent = `Group (${staffState.ft}): £${(payoutState.ft * staffState.ft).toFixed(2)}`;
+      ptGroupTotal.textContent = `Group (${staffState.pt}): £${(payoutState.pt * staffState.pt).toFixed(2)}`;
+
+      if (animate) {
+        [cardBM, cardFT, cardPT].forEach(card => {
+          if (card.style.display !== 'none') {
+            card.classList.remove('bounce-pop');
+            void card.offsetWidth;
+            card.classList.add('bounce-pop');
+          }
+        });
+      }
+    }
+
+    totalTipsInput.addEventListener('input', () => {
+      hasCustomAdjustment = false;
+      calculate();
+    });
+
     window.addEventListener('DOMContentLoaded', calculate);
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('Tip Split Service Worker registered:', reg.scope))
-          .catch((err) => console.error('Tip Split Service Worker registration failed:', err));
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
       });
     }
   </script>
