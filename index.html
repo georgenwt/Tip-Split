@@ -103,12 +103,10 @@
       animation: floatAround infinite ease-in-out alternate;
     }
 
-    /* Perimeter Bubbles */
     .bubble-1 { width: 140px; height: 140px; top: -30px; left: -25px; animation-duration: 7s; }
     .bubble-2 { width: 90px; height: 90px; top: 15%; right: -20px; animation-duration: 9.5s; }
     .bubble-3 { width: 110px; height: 110px; bottom: 12%; left: -30px; animation-duration: 8s; }
 
-    /* Centered Screen Visible Bubbles */
     .bubble-center-1 { width: 130px; height: 130px; top: 38%; left: 15%; opacity: 0.38; animation-duration: 8.5s; animation-delay: -2s; }
     .bubble-center-2 { width: 100px; height: 100px; top: 52%; right: 18%; opacity: 0.35; animation-duration: 7.2s; animation-delay: -4s; }
     .bubble-center-3 { width: 75px; height: 75px; top: 46%; left: 45%; opacity: 0.32; animation-duration: 6.8s; animation-delay: -1s; }
@@ -386,7 +384,6 @@
       color: var(--text-muted);
     }
 
-    /* Override Stepper Cluster */
     .stepper-cluster {
       display: flex;
       align-items: center;
@@ -457,9 +454,7 @@
       transform: scale(0.95);
     }
 
-    /* ==========================================================================
-       START MODULAR NAVIGATION BAR COMPONENT (READY TO EXPORT TO DAY2DOT.COM)
-       ========================================================================== */
+    /* Modular Navigation Dock */
     .floating-nav-dock {
       width: 100%;
       max-width: 440px;
@@ -521,16 +516,14 @@
       opacity: 0.9;
     }
 
-    /* Active Highlight Button State (Shimmer, Glow, Subtle Sparkle) */
     .nav-icon-btn.active {
       color: #ffffff;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.1));
       border: 1.5px solid rgba(255, 255, 255, 0.55);
       box-shadow: 0 6px 20px rgba(255, 255, 255, 0.22), inset 0 0 14px rgba(255, 255, 255, 0.35);
-      pointer-events: none; /* Prevents reload when already on this page */
+      pointer-events: none;
     }
 
-    /* Subtle glitter overlay on active button */
     .nav-icon-btn.active::before {
       content: '';
       position: absolute;
@@ -543,11 +536,8 @@
       0% { transform: translateX(-150%); }
       50%, 100% { transform: translateX(150%); }
     }
-    /* ==========================================================================
-       END MODULAR NAVIGATION BAR COMPONENT
-       ========================================================================== */
 
-    /* Modal Overlay (Scrollable) */
+    /* Modal Overlay */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -727,12 +717,11 @@
 </head>
 <body>
 
-  <!-- Floating Liquid Bubbles (Perimeter & Centered) -->
+  <!-- Floating Liquid Bubbles -->
   <div class="bubble-layer">
     <div class="bubble bubble-1"></div>
     <div class="bubble bubble-2"></div>
     <div class="bubble bubble-3"></div>
-    <!-- Centered Obvious Floating Orbs -->
     <div class="bubble bubble-center-1"></div>
     <div class="bubble bubble-center-2"></div>
     <div class="bubble bubble-center-3"></div>
@@ -757,7 +746,7 @@
         <label>Amount of Staff</label>
         <div class="dropdown-trigger" id="staffTrigger" role="button" aria-expanded="false">
           <div class="trigger-val">
-            <span id="staffTotalDisplay">13</span>
+            <span id="staffTotalDisplay">0</span>
             <span class="trigger-sub">Staff (tap to configure)</span>
           </div>
           <svg class="chevron" viewBox="0 0 24 24">
@@ -771,7 +760,7 @@
               <div class="role-info-label">BMs</div>
               <div class="counter-controls">
                 <button class="counter-btn" onclick="adjustRoleHeadcount('bm', -1)">−</button>
-                <span class="counter-num" id="bmCount">4</span>
+                <span class="counter-num" id="bmCount">0</span>
                 <button class="counter-btn" onclick="adjustRoleHeadcount('bm', 1)">+</button>
               </div>
             </div>
@@ -780,7 +769,7 @@
               <div class="role-info-label">Full Time</div>
               <div class="counter-controls">
                 <button class="counter-btn" onclick="adjustRoleHeadcount('ft', -1)">−</button>
-                <span class="counter-num" id="ftCount">5</span>
+                <span class="counter-num" id="ftCount">0</span>
                 <button class="counter-btn" onclick="adjustRoleHeadcount('ft', 1)">+</button>
               </div>
             </div>
@@ -789,7 +778,7 @@
               <div class="role-info-label">Part Time</div>
               <div class="counter-controls">
                 <button class="counter-btn" onclick="adjustRoleHeadcount('pt', -1)">−</button>
-                <span class="counter-num" id="ptCount">4</span>
+                <span class="counter-num" id="ptCount">0</span>
                 <button class="counter-btn" onclick="adjustRoleHeadcount('pt', 1)">+</button>
               </div>
             </div>
@@ -798,13 +787,13 @@
       </div>
     </section>
 
-    <!-- Results Cards with ±£1 Steppers -->
+    <!-- Results Cards: Permanently visible in DOM -->
     <section class="results-grid">
       <!-- BM Card -->
       <article class="glass-card result-card" id="cardBM">
         <div class="res-info">
           <div class="res-title">BMs</div>
-          <div class="res-sub" id="bmSub">4 staff</div>
+          <div class="res-sub" id="bmSub">0 staff</div>
         </div>
 
         <div class="stepper-cluster">
@@ -821,7 +810,7 @@
       <article class="glass-card result-card" id="cardFT">
         <div class="res-info">
           <div class="res-title">Full Time</div>
-          <div class="res-sub" id="ftSub">5 staff</div>
+          <div class="res-sub" id="ftSub">0 staff</div>
         </div>
 
         <div class="stepper-cluster">
@@ -838,7 +827,7 @@
       <article class="glass-card result-card" id="cardPT">
         <div class="res-info">
           <div class="res-title">Part Time</div>
-          <div class="res-sub" id="ptSub">4 staff</div>
+          <div class="res-sub" id="ptSub">0 staff</div>
         </div>
 
         <div class="stepper-cluster">
@@ -858,27 +847,22 @@
     </button>
   </main>
 
-  <!-- ==========================================================================
-       START MODULAR NAVIGATION DOCK (EXPORTABLE TO DAY2DOT.COM)
-       ========================================================================== -->
+  <!-- Modular Navigation Dock (Day Dot on Left, Tip Split on Right) -->
   <nav class="floating-nav-dock" aria-label="Quick Switcher">
     <div class="glass-nav-bar">
-      <!-- Button 1: Tip Split (Current Page: active, non-refreshing) -->
-      <a href="javascript:void(0)" class="nav-icon-btn active" aria-current="page" onclick="return false;">
-        <span class="nav-btn-line1">Tip</span>
-        <span class="nav-btn-line2">Split</span>
-      </a>
-
-      <!-- Button 2: Day Dot (Links to day2dot.com) -->
+      <!-- Left: Day Dot -->
       <a href="https://www.day2dot.com" class="nav-icon-btn" rel="noopener">
         <span class="nav-btn-line1">Day</span>
         <span class="nav-btn-line2">Dot</span>
       </a>
+
+      <!-- Right: Tip Split (Active, Non-refreshing) -->
+      <a href="javascript:void(0)" class="nav-icon-btn active" aria-current="page" onclick="return false;">
+        <span class="nav-btn-line1">Tip</span>
+        <span class="nav-btn-line2">Split</span>
+      </a>
     </div>
   </nav>
-  <!-- ==========================================================================
-       END MODULAR NAVIGATION DOCK
-       ========================================================================== -->
 
   <!-- Modal Sheet -->
   <div class="modal-overlay" id="modalOverlay">
@@ -907,7 +891,7 @@
           <div class="calc-step-title">2. Half X (Equal Distribution)</div>
           <div class="calc-step-desc">Distributed uniformly across active staff:</div>
           <div class="eq-row">
-            <span id="modalXFormula">£0.00 ÷ 13 staff</span>
+            <span id="modalXFormula">£0.00 ÷ 0 staff</span>
             <strong id="modalEqualShare">£0.00 each</strong>
           </div>
         </div>
@@ -916,8 +900,8 @@
           <div class="calc-step-title">3. Half Y (Role & Contract Weighting)</div>
           <div class="calc-step-desc">Weights: BM = 3 pts · FT = 2 pts · PT = 1 pt</div>
           <div class="eq-row">
-            <span id="modalPointsFormula">(4×3) + (5×2) + (4×1)</span>
-            <strong id="modalTotalPoints">26 pts total</strong>
+            <span id="modalPointsFormula">(0×3) + (0×2) + (0×1)</span>
+            <strong id="modalTotalPoints">0 pts total</strong>
           </div>
           <div class="eq-row">
             <span>Point Value (Half Y ÷ Total Points):</span>
@@ -980,21 +964,19 @@
   </div>
 
   <script>
-    // Staff Counts
+    // Initial Staff Counts set to 0
     const staffState = {
-      bm: 4,
-      ft: 5,
-      pt: 4
+      bm: 0,
+      ft: 0,
+      pt: 0
     };
 
-    // Current individualized payouts
     const payoutState = {
       bm: 0,
       ft: 0,
       pt: 0
     };
 
-    // Track if user has made custom ±£1 adjustments
     let hasCustomAdjustment = false;
 
     // Elements
@@ -1038,33 +1020,29 @@
     const modalFTSummary = document.getElementById('modalFTSummary');
     const modalPTSummary = document.getElementById('modalPTSummary');
 
-    // Accordion Toggle
     staffTrigger.addEventListener('click', () => {
       const isOpen = staffPanel.classList.toggle('open');
       staffTrigger.classList.toggle('open');
       staffTrigger.setAttribute('aria-expanded', isOpen);
     });
 
-    // Adjust Headcount
     function adjustRoleHeadcount(role, delta) {
       if (staffState[role] + delta >= 0) {
         staffState[role] += delta;
         bmCountEl.textContent = staffState.bm;
         ftCountEl.textContent = staffState.ft;
         ptCountEl.textContent = staffState.pt;
-        hasCustomAdjustment = false; // Reset to clean math on roster change
+        hasCustomAdjustment = false;
         calculate();
       }
     }
 
-    // Modal Control
     openModalBtn.addEventListener('click', () => modalOverlay.classList.add('open'));
     closeModalBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) modalOverlay.classList.remove('open');
     });
 
-    // Primary Calculation
     function calculate() {
       const totalTips = parseFloat(totalTipsInput.value) || 0;
       const totalStaff = staffState.bm + staffState.ft + staffState.pt;
@@ -1073,10 +1051,6 @@
       bmSub.textContent = `${staffState.bm} staff`;
       ftSub.textContent = `${staffState.ft} staff`;
       ptSub.textContent = `${staffState.pt} staff`;
-
-      cardBM.style.display = staffState.bm > 0 ? 'flex' : 'none';
-      cardFT.style.display = staffState.ft > 0 ? 'flex' : 'none';
-      cardPT.style.display = staffState.pt > 0 ? 'flex' : 'none';
 
       const totalPoints = (staffState.bm * 3) + (staffState.ft * 2) + (staffState.pt * 1);
       modalPointsFormula.textContent = `(${staffState.bm}×3) + (${staffState.ft}×2) + (${staffState.pt}×1)`;
@@ -1124,7 +1098,6 @@
       renderOutputs();
     }
 
-    // Proportional ±£1 Adjustment Rebalancing Engine
     function shiftRoleValue(targetRole, delta) {
       const totalTips = parseFloat(totalTipsInput.value) || 0;
       if (totalTips <= 0 || staffState[targetRole] <= 0) return;
@@ -1132,26 +1105,21 @@
       const targetHeadcount = staffState[targetRole];
       const deltaTotal = delta * targetHeadcount;
 
-      // Find other active roles to absorb the difference
       const otherRoles = ['bm', 'ft', 'pt'].filter(r => r !== targetRole && staffState[r] > 0);
-      if (otherRoles.length === 0) return; // Cannot shift if only 1 role exists
+      if (otherRoles.length === 0) return;
 
       const otherStaffCount = otherRoles.reduce((sum, r) => sum + staffState[r], 0);
       if (otherStaffCount <= 0) return;
 
-      // Check if target role would drop below £0
       if (payoutState[targetRole] + delta < 0) return;
 
-      // Check if other roles can absorb the subtraction without going negative
       const perStaffDeduction = deltaTotal / otherStaffCount;
       const wouldCauseNegative = otherRoles.some(r => (payoutState[r] - perStaffDeduction) < 0);
       if (wouldCauseNegative) return;
 
-      // Apply adjustment
       hasCustomAdjustment = true;
       payoutState[targetRole] += delta;
 
-      // Distribute evenly across remaining staff so grand pool remains identical
       otherRoles.forEach(r => {
         payoutState[r] -= perStaffDeduction;
       });
@@ -1159,7 +1127,6 @@
       renderOutputs(true);
     }
 
-    // Render numbers to DOM
     function renderOutputs(animate = false) {
       bmPayout.textContent = `£${payoutState.bm.toFixed(2)}`;
       ftPayout.textContent = `£${payoutState.ft.toFixed(2)}`;
@@ -1171,11 +1138,9 @@
 
       if (animate) {
         [cardBM, cardFT, cardPT].forEach(card => {
-          if (card.style.display !== 'none') {
-            card.classList.remove('bounce-pop');
-            void card.offsetWidth;
-            card.classList.add('bounce-pop');
-          }
+          card.classList.remove('bounce-pop');
+          void card.offsetWidth;
+          card.classList.add('bounce-pop');
         });
       }
     }
@@ -1189,7 +1154,17 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
+          registration.update();
+        }).catch(() => {});
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
       });
     }
   </script>
