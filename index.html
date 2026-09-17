@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Tip Split</title>
 
-  <!-- Color Scheme & Theme Handlers for Seamless System Bars -->
+  <!-- Color Scheme & Seamless Navigation Scrim -->
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#730723" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -18,8 +18,33 @@
   <link rel="icon" type="image/png" href="icon.png" />
 
   <style>
+    /* Local Self-Hosted Jost (@font-face) */
+    @font-face {
+      font-family: 'Jost';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('./fonts/jost-v18-latin-regular.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Jost';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('./fonts/jost-v18-latin-700.woff2') format('woff2');
+    }
+
+    @font-face {
+      font-family: 'Jost';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('./fonts/jost-v18-latin-800.woff2') format('woff2');
+    }
+
     :root {
-      --font-family: 'Brandon Grotesque', 'brandon-grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-family: 'Jost', 'Brandon Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --costa-burgundy: #730723;
       --costa-dark: #3e0311;
       --costa-light: #9e1338;
@@ -39,7 +64,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Force dark color scheme to prevent mobile browsers from rendering a white navigation scrim */
     html {
       color-scheme: dark;
       background-color: var(--costa-dark);
@@ -97,7 +121,7 @@
       100% { transform: translateY(20px) scale(0.94) rotate(-10deg); }
     }
 
-    /* Container */
+    /* Main Container */
     .app-container {
       width: 100%;
       max-width: 440px;
@@ -126,16 +150,15 @@
       box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.38);
     }
 
-    /* Header */
     .header-card {
       text-align: center;
       padding: 14px;
     }
 
     h1 {
-      font-size: 1.85rem;
+      font-size: 1.95rem;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     /* Install Prompt Banner */
@@ -173,7 +196,7 @@
     }
 
     .install-title {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 800;
     }
 
@@ -187,7 +210,7 @@
       border: 1px solid rgba(255, 255, 255, 0.45);
       border-radius: 12px;
       color: #fff;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 800;
       padding: 7px 12px;
       cursor: pointer;
@@ -199,7 +222,7 @@
       transform: scale(0.92);
     }
 
-    /* iOS Steps Box */
+    /* iOS Step Guidance */
     .ios-install-steps {
       display: none;
       flex-direction: column;
@@ -235,14 +258,14 @@
       flex-shrink: 0;
     }
 
-    /* Form Fields */
+    /* Fields */
     .field-group {
       margin-bottom: 12px;
     }
 
     label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
       margin-bottom: 6px;
       color: var(--text-muted);
@@ -280,7 +303,7 @@
       border-radius: 18px;
       padding: 13px 14px 13px 34px;
       color: #fff;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 700;
       outline: none;
       transition: all 0.3s var(--spring-bounce);
@@ -318,7 +341,7 @@
     }
 
     .trigger-val {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 800;
       display: flex;
       align-items: baseline;
@@ -326,7 +349,7 @@
     }
 
     .trigger-sub {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 400;
       color: var(--text-muted);
     }
@@ -346,7 +369,6 @@
       transform: rotate(180deg);
     }
 
-    /* Dropdown Panel */
     .dropdown-panel {
       display: grid;
       grid-template-rows: 0fr;
@@ -379,7 +401,6 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
-    /* Counter Controls */
     .counter-row {
       display: flex;
       justify-content: space-between;
@@ -392,7 +413,7 @@
 
     .role-info-label {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
     }
 
     .counter-controls {
@@ -426,7 +447,7 @@
     .counter-num {
       width: 26px;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
     }
 
@@ -445,12 +466,12 @@
     }
 
     .res-title {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 800;
     }
 
     .res-sub {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 400;
       color: var(--text-muted);
       margin-top: 2px;
@@ -461,20 +482,19 @@
     }
 
     .payout-number {
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: #fff;
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
     }
 
     .res-group-total {
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 400;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
-    /* Pop-out Trigger Button */
     .equation-btn {
       width: 100%;
       background: rgba(255, 255, 255, 0.18);
@@ -579,7 +599,7 @@
     }
 
     .modal-section-card h2 {
-      font-size: 1.12rem;
+      font-size: 1.15rem;
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
@@ -695,7 +715,7 @@
 </head>
 <body>
 
-  <!-- Ambient Bubbles -->
+  <!-- Floating Liquid Bubbles -->
   <div class="bubble-layer">
     <div class="bubble bubble-1"></div>
     <div class="bubble bubble-2"></div>
@@ -708,7 +728,6 @@
       <h1>Tip Split</h1>
     </header>
 
-    <!-- Install Banner -->
     <section class="glass-card install-banner" id="installBanner">
       <div class="install-banner-content">
         <img src="icon.png" alt="App Icon" class="install-app-icon" onerror="this.style.display='none'" />
@@ -720,7 +739,6 @@
       <button class="install-action-btn" id="installBtn" type="button">Install</button>
     </section>
 
-    <!-- iOS Step Box -->
     <div class="glass-card ios-install-steps" id="iosStepsBox">
       <div class="ios-step-item">
         <span class="step-num">1</span>
