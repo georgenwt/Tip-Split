@@ -79,7 +79,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: max(12px, env(safe-area-inset-top)) 14px 0;
+      padding: max(14px, env(safe-area-inset-top)) 14px 0;
       position: relative;
       overflow-x: hidden;
       overflow-y: auto;
@@ -124,7 +124,7 @@
       z-index: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       flex: 1;
       justify-content: flex-start;
       animation: heavyEntrance 0.65s var(--spring-bounce);
@@ -132,8 +132,8 @@
     }
 
     @keyframes heavyEntrance {
-      0% { opacity: 0; transform: translateY(40px) scale(0.94); }
-      60% { transform: translateY(-8px) scale(1.02); }
+      0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+      60% { transform: translateY(-6px) scale(1.01); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
@@ -143,32 +143,21 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
-      padding: 12px 14px;
+      padding: 14px;
       border: 1px solid var(--glass-border);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.35);
     }
 
-    .header-card {
-      text-align: center;
-      padding: 8px 12px;
-    }
-
-    h1 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
     /* Form Fields */
     .field-group {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     label {
       display: block;
       font-size: 0.74rem;
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -202,9 +191,9 @@
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
       border-radius: 16px;
-      padding: 10px 12px 10px 32px;
+      padding: 12px 14px 12px 34px;
       color: #fff;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 700;
       outline: none;
       transition: all 0.3s var(--spring-bounce);
@@ -213,7 +202,7 @@
     input[type="number"]::placeholder {
       color: rgba(255, 255, 255, 0.45);
       font-weight: 400;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
     }
 
     input[type="number"]:focus {
@@ -228,7 +217,7 @@
       background: rgba(0, 0, 0, 0.24);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
       border-radius: 16px;
-      padding: 10px 14px;
+      padding: 11px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -363,7 +352,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 14px;
+      padding: 12px 14px;
     }
 
     .res-info {
@@ -437,7 +426,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 16px;
-      padding: 9px;
+      padding: 10px;
       color: #ffffff;
       font-size: 0.88rem;
       font-weight: 700;
@@ -734,10 +723,7 @@
   </div>
 
   <main class="app-container">
-    <header class="glass-card header-card">
-      <h1>Tip Split</h1>
-    </header>
-
+    <!-- Main Inputs -->
     <section class="glass-card">
       <div class="field-group">
         <label for="totalTips">Value of Tips</label>
@@ -792,6 +778,7 @@
       </div>
     </section>
 
+    <!-- Results Cards -->
     <section class="results-grid">
       <article class="glass-card result-card" id="cardBM">
         <div class="res-info">
