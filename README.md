@@ -16,10 +16,6 @@ A mobile-first progressive web application (PWA) for calculating fair tip alloca
 
 ---
 
-Calculation FormulaFor total tips $T$, staff population $S$ of size $N$, and role weights $w_i \in \{1, 2, 3\}$:$$W = \sum_{i \in S} w_i = 3|S_{\text{BM}}| + 2|S_{\text{FT}}| + 1|S_{\text{PT}}|$$$$P_i = \frac{T}{2N} + w_i \cdot \frac{T}{2W}$$Where $P_i$ represents the individual dividend for each worker.
-
----
-
 ## File Structure
 
 ```text
